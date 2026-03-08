@@ -59,8 +59,8 @@
         }
 
         input {
-            background: rgba(255,255,255,0.05) !important;
-            border: 1px solid rgba(255,255,255,0.1) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
             color: white !important;
         }
 
@@ -77,6 +77,10 @@
         #profile-dropdown {
             transition: all 0.2s ease-out;
         }
+        
+        /* Hide scrollbar for category list on mobile */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 
@@ -90,11 +94,8 @@
                     <img width="100" class="md:w-[120px]" src="https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/645767045_1045300431786946_9168206149520934376_n-removebg-preview_upscayl_4x_realesrgan-x4plus-anime.png" alt="Logo">
                 </div>
                 
-                <!-- Profile & Auth (Mobile Only position) -->
                 <div class="flex md:hidden items-center gap-3">
-                    <div id="auth-nav-mobile" class="flex items-center gap-3">
-                        <!-- Content synced by JS -->
-                    </div>
+                    <div id="auth-nav-mobile" class="flex items-center gap-3"></div>
                 </div>
             </div>
 
@@ -151,7 +152,6 @@
                 <a href="admin.html" class="hover:text-white transition">Admin</a>
             </div>
 
-            <!-- Mobile Navigation Shortcuts (Visible only on mobile) -->
             <div class="flex md:hidden gap-4 text-[9px] font-black uppercase tracking-widest text-slate-400 overflow-x-auto w-full pb-2 no-scrollbar">
                 <a onclick="showCategory('wallet')" class="whitespace-nowrap bg-white/5 px-4 py-2 rounded-full">💳 Wallet</a>
                 <a onclick="showCategory('games')" class="whitespace-nowrap bg-white/5 px-4 py-2 rounded-full">🎮 Games</a>
@@ -168,14 +168,12 @@
         </header>
 
         <section id="box-grid" class="max-w-7xl mx-auto -mt-16 md:-mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 px-6 md:px-10 pb-32">
-            <!-- Box 1 -->
             <div onclick="openDetail('Starter Box', 149, 'The perfect entry point. Contains a mix of highly-rated Indie and Arcade classics.', '')" class="box-card p-8 md:p-12 flex flex-col items-center text-center">
                 <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">Entry Level</span>
                 <h3 class="text-xl md:text-2xl font-black mb-8 italic uppercase text-white">Starter Box</h3>
-                <button onclick="event.stopPropagation(); buyNow('Starter Box', 149)" class="bg-[#C08C5D]/20 text-[#C08C5D] px-10 py-3 rounded-full font-black text-xs border border-[#C08C5D]/50 uppercase tracking-widest">149 TK</button>
+                <button onclick="event.stopPropagation(); buyNow('Starter Box', 149)" class="bg-[#C08C5D]/20 text-[#C08C5D] px-10 py-3 rounded-full font-black text-xs border border-[#C08C5D]/50 uppercase hover:bg-[#C08C5D] hover:text-white transition tracking-widest">149 TK</button>
             </div>
-            <!-- Box 2 -->
-            <div onclick="openDetail('Gamers Choice', 299, 'Our community favorite. AAA titles and premium Indie hits.', '')" class="box-card p-1 relative flex flex-col items-center text-center gamers-choice-glow scale-100 md:scale-110 z-10 bg-[#161a21]">
+            <div onclick="openDetail('Gamers Choice', 299, 'Our community favorite. A balanced mix of blockbuster AAA titles and premium Indie hits.', '')" class="box-card p-1 relative flex flex-col items-center text-center gamers-choice-glow scale-100 md:scale-110 z-10 bg-[#161a21]">
                 <div class="bg-[#39FF14] text-black text-[9px] font-black px-6 py-1 rounded-full absolute -top-3 uppercase">Recommended</div>
                 <div class="p-8 md:p-10 w-full">
                     <span class="text-[10px] font-black text-green-500 uppercase tracking-[0.3em] mb-4">Most Popular</span>
@@ -183,11 +181,10 @@
                     <button onclick="event.stopPropagation(); buyNow('Gamers Choice', 299)" class="bg-[#39FF14] text-black w-full py-4 rounded-2xl font-black uppercase text-xs tracking-widest">Unbox Now</button>
                 </div>
             </div>
-            <!-- Box 3 -->
-            <div onclick="openDetail('Elite Mystery', 599, 'Top Sellers list. No fillers, just blockbuster power.', '')" class="box-card p-8 md:p-12 flex flex-col items-center text-center">
+            <div onclick="openDetail('Elite Mystery', 599, 'The ultimate lottery. Strictly contains titles from the Steam Top Sellers list.', '')" class="box-card p-8 md:p-12 flex flex-col items-center text-center">
                 <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">High Roller</span>
                 <h3 class="text-xl md:text-2xl font-black mb-8 italic uppercase text-white">Elite Mystery</h3>
-                <button onclick="event.stopPropagation(); buyNow('Elite Mystery', 599)" class="bg-white/5 text-white px-10 py-3 rounded-full font-black text-xs border border-white/20 uppercase tracking-widest">599 TK</button>
+                <button onclick="event.stopPropagation(); buyNow('Elite Mystery', 599)" class="bg-white/5 text-white px-10 py-3 rounded-full font-black text-xs border border-white/20 uppercase hover:bg-white hover:text-black transition tracking-widest">599 TK</button>
             </div>
         </section>
 
@@ -233,53 +230,97 @@
         <div id="orders-list" class="space-y-4"></div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#090b0e] pt-16 pb-12 border-t border-white/5 px-6 md:px-10 mt-20">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 text-center md:text-left">
+     <!-- FOOTER -->
+    <footer class="bg-[#090b0e] pt-24 pb-12 border-t border-white/5 px-10 mt-20">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
             <div class="col-span-1">
-                <div class="flex items-center gap-2 mb-6 justify-center md:justify-start">
-                    <div class="w-8 h-8 bg-[#39FF14] rounded-lg flex items-center justify-center font-black italic text-black">REC</div>
-                    <span class="font-black text-lg text-white">SHOP</span>
+                <div class="flex items-center gap-2 mb-6">
+                    <div
+                        class="w-8 h-8 bg-[#39FF14] rounded-lg flex items-center justify-center font-black italic text-black text-sm">
+                        REC</div>
+                    <span class="font-black text-lg tracking-tighter uppercase italic text-white">SHOP</span>
                 </div>
-                <p class="text-slate-500 text-xs">Bangladesh's most trusted digital gaming marketplace.</p>
+                <p class="text-slate-500 text-xs leading-relaxed mb-6">Bangladesh's most trusted digital gaming
+                    marketplace. Providing legal Steam keys, mystery drops, and wallet cards with instant delivery.</p>
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#39FF14] hover:text-black transition duration-300">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                    </a>
+                </div>
             </div>
             <div>
-                <h4 class="text-white text-[10px] font-black uppercase mb-6 italic">Help & Legal</h4>
-                <ul class="text-slate-500 text-[11px] font-bold space-y-4 uppercase">
-                    <li><a href="help.html#redeem" class="hover:text-[#00D1FF]">Redeem Guide</a></li>
-                    <li><a href="help.html#refund" class="hover:text-[#00D1FF]">Refund Policy</a></li>
-                    <li><a href="help.html#terms" class="hover:text-[#00D1FF]">Terms</a></li>
+                <h4 class="text-white text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic">Marketplace</h4>
+                <ul class="text-slate-500 text-[11px] font-bold space-y-4 uppercase tracking-wider">
+                    <li><a onclick="showCategory('games')" class="hover:text-[#39FF14] transition cursor-pointer">PC
+                            Games</a></li>
+                    <li><a onclick="showCategory('wallet')" class="hover:text-[#39FF14] transition cursor-pointer">Steam
+                            Wallet</a></li>
+                    <li><a onclick="showCategory('keys')" class="hover:text-[#39FF14] transition cursor-pointer">Random
+                            Keys</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="text-white text-[10px] font-black uppercase mb-6 italic">Contact</h4>
-                <div class="text-slate-500 text-[11px] font-bold space-y-2 uppercase leading-loose">
-                    <p>✉️ support@recshop.com</p>
-                    <p>📞 +880 1805536811</p>
-                </div>
+                <h4 class="text-white text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic">Help & Legal</h4>
+                <ul class="text-slate-500 text-[11px] font-bold space-y-4 uppercase tracking-wider">
+                    <li><a href="help.html#redeem" class="hover:text-[#00D1FF] transition cursor-pointer">Redeem Guide</a></li>
+                    <li><a href="help.html#refund" class="hover:text-[#00D1FF] transition cursor-pointer">Refund Policy</a></li>
+                    <li><a href="help.html#terms" class="hover:text-[#00D1FF] transition cursor-pointer">Terms of Service</a></li>
+                </ul>
             </div>
             <div>
-                <div class="flex flex-wrap justify-center md:justify-start gap-2 pt-4">
-                    <span class="bg-white/5 px-3 py-1 rounded text-[8px] text-[#FF1493] border border-white/5 uppercase">bKash</span>
-                    <span class="bg-white/5 px-3 py-1 rounded text-[8px] text-[#FFA500] border border-white/5 uppercase">Nagad</span>
-                    <span class="bg-white/5 px-3 py-1 rounded text-[8px] text-[#FFA500] border border-white/5 uppercase">Upay</span>
+                <h4 class="text-white text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic">Contact Info</h4>
+                <div class="text-slate-500 text-[11px] font-bold space-y-4 uppercase tracking-wider leading-loose">
+                    <p>📍 Dhaka, Bangladesh</p>
+                    <p>✉️ support@recshop.com</p>
+                    <p>📞 +880 1805536811</p>
+                    <div class="pt-4 flex gap-2">
+                        <span
+                            class="bg-white/5 px-3 py-1 rounded-md text-[9px] text-[#FF1493] border border-white/5">bKash
+                            Active</span>
+                        <span
+                            class="bg-white/5 px-3 py-1 rounded-md text-[9px] text-[#FFA500] border border-white/5">Nagad
+                            Active</span>
+                        <span
+                            class="bg-white/5 px-3 py-1 rounded-md text-[9px] text-[#FFA500] border border-white/5">Upay
+                            Active</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto pt-10 border-t border-white/5 text-center">
-            <p class="text-slate-600 text-[8px] font-black uppercase tracking-widest">© 2026 RECSHOP DIGITAL LTD.</p>
+        <div
+            class="max-w-7xl mx-auto pt-10 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-center md:text-left">
+            <p class="text-slate-600 text-[9px] font-black uppercase tracking-[0.2em]">© 2026 <span
+                    class="text-slate-400">RECSHOP DIGITAL LTD.</span> Designer & Devs - <a
+                    href="https://www.instagram.com/_bbatmann_/">Fardin Rifat</a>, <a
+                    href="https://www.instagram.com/demonisedsaint/">Aluminati</a></p>
+
+            <div
+                class="flex items-center gap-6 opacity-30 grayscale hover:opacity-100 transition duration-500 cursor-default">
+                <span class="text-[10px] font-black text-white italic">POWERED BY SUPABASE</span>
+                <span class="text-[10px] font-black text-white italic">CLOUDFLARE SECURED</span>
+            </div>
         </div>
     </footer>
 
-    <!-- Auth Modal (Mobile Friendly) -->
+    <!-- Auth Modal (Google Enabled) -->
     <div id="auth-modal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[200] p-4">
-        <div class="bg-[#12151c] p-8 md:p-10 rounded-[2rem] border border-white/10 w-full max-w-md">
-            <h2 id="modal-title" class="text-2xl font-black uppercase mb-8 italic text-white text-center">Login</h2>
-            <input type="email" id="email" placeholder="Email" class="w-full p-4 rounded-xl mb-4 outline-none">
-            <input type="password" id="pass" placeholder="Password" class="w-full p-4 rounded-xl mb-6 outline-none">
-            <button onclick="handleAuth()" class="w-full py-4 bg-[#39FF14] text-black font-black uppercase rounded-xl shadow-lg">Continue</button>
-            <p class="text-center text-xs text-slate-500 mt-6"><button onclick="toggleAuthMode()" id="switch-btn" class="text-[#39FF14] underline">Need an account? Sign Up</button></p>
-            <button onclick="toggleModal('auth-modal')" class="w-full mt-4 text-slate-600 text-[9px] font-black uppercase tracking-widest">Cancel</button>
+        <div class="bg-[#12151c] p-8 md:p-10 rounded-[2rem] border border-white/10 w-full max-w-md text-center shadow-2xl">
+            <div class="w-16 h-16 bg-[#39FF14]/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-[#39FF14]/20">
+                <svg class="w-8 h-8 text-[#39FF14]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-1.114-10.463A11.403 11.403 0 0010 11c0-5.923-4.135-10.831-9.552-11.772M11 21c3.517 0 6.799-1.009 9.571-2.753m-10.463-1.114A11.403 11.403 0 0011 10c0-5.923-4.135-10.831-9.552-11.772M21 11a10 10 0 01-10 10"></path></svg>
+            </div>
+            <h2 class="text-2xl font-black uppercase mb-2 italic text-white leading-tight">Welcome to RECSHOP</h2>
+            <p class="text-slate-500 text-[10px] mb-10 font-bold uppercase tracking-widest">Sign in to track your orders & keys</p>
+
+            <button onclick="loginWithGoogle()" class="w-full py-4 bg-white text-black font-black uppercase rounded-xl flex items-center justify-center gap-3 transition hover:bg-slate-200 active:scale-95 text-xs">
+                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="18">
+                Continue with Google
+            </button>
+
+            <button onclick="toggleModal('auth-modal')" class="w-full mt-8 text-slate-600 text-[9px] font-black uppercase tracking-widest hover:text-white transition">Cancel</button>
         </div>
     </div>
 
@@ -288,7 +329,14 @@
         const SUPABASE_KEY = 'sb_publishable_JGk4_cBt3-phnbPbbFIl7A_yvuVt-Ki';
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        let isLogin = true;
+        // --- GOOGLE LOGIN ---
+        async function loginWithGoogle() {
+            const { data, error } = await client.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.origin + '/index.html' }
+            });
+            if (error) alert("Error: " + error.message);
+        }
 
         function toggleProfileDropdown(event) {
             event.stopPropagation();
@@ -319,29 +367,16 @@
             const mobileAuth = document.getElementById('auth-nav-mobile');
 
             if (session) {
-                loginText.classList.add('hidden');
-                profileTrigger.classList.remove('hidden');
-                userEmailText.innerText = session.user.email;
+                if(loginText) loginText.classList.add('hidden');
+                if(profileTrigger) profileTrigger.classList.remove('hidden');
+                if(userEmailText) userEmailText.innerText = session.user.email;
                 mobileAuth.innerHTML = `<button onclick="showProfile()" class="w-8 h-8 rounded-full bg-[#39FF14] text-black font-black text-[10px]">ME</button>`;
             } else {
-                loginText.classList.remove('hidden');
-                profileTrigger.classList.add('hidden');
+                if(loginText) loginText.classList.remove('hidden');
+                if(profileTrigger) profileTrigger.classList.add('hidden');
                 mobileAuth.innerHTML = `<button onclick="toggleModal('auth-modal')" class="text-[9px] font-black text-[#39FF14]">LOGIN</button>`;
             }
         });
-
-        async function handleAuth() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('pass').value;
-            const { error } = isLogin ? await client.auth.signInWithPassword({ email, password }) : await client.auth.signUp({ email, password });
-            if (error) alert(error.message); else location.reload();
-        }
-
-        function toggleAuthMode() {
-            isLogin = !isLogin;
-            document.getElementById('modal-title').innerText = isLogin ? 'Login' : 'Sign Up';
-            document.getElementById('switch-btn').innerText = isLogin ? 'Need an account? Sign Up' : 'Have an account? Login';
-        }
 
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); document.getElementById(id).classList.toggle('flex'); }
         async function handleLogout() { await client.auth.signOut(); location.reload(); }
@@ -352,24 +387,23 @@
             document.getElementById('profile-view').classList.add('hidden');
             const section = document.getElementById('category-section');
             section.classList.remove('hidden');
-            document.getElementById('cat-title').innerText = cat === 'games' ? 'Premium Games' : (cat === 'wallet' ? 'Steam Wallet' : 'Random Keys');
+            document.getElementById('cat-title').innerText = (cat === 'games' ? 'Premium Games' : cat === 'wallet' ? 'Steam Wallet' : 'Random Keys');
             const { data } = await client.from('products').select('*').eq('category', cat);
             
             document.getElementById('product-grid').innerHTML = data.map(p => {
                 const safeDesc = (p.description || "").replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, "\\n").replace(/\r/g, "");
                 return `
                 <div onclick="openDetail('${p.name}', ${p.price}, '${safeDesc}', '${p.image_url || ''}')" class="box-card">
-                    ${p.image_url ? `<img src="${p.image_url}" class="w-full h-40 md:h-48 object-cover">` : `<div class="h-40 md:h-48 bg-slate-800 flex items-center justify-center text-slate-600 font-bold italic">NO IMAGE</div>`}
-                    <div class="p-6 md:p-8">
-                        <h3 class="text-lg md:text-xl font-black mb-4 uppercase italic text-[#00D1FF] truncate">${p.name}</h3>
+                    ${p.image_url ? `<img src="${p.image_url}" class="w-full h-40 md:h-48 object-cover">` : `<div class="h-40 md:h-48 bg-slate-800 flex items-center justify-center text-slate-600 font-bold italic">READY</div>`}
+                    <div class="p-6">
+                        <h3 class="text-base md:text-xl font-black mb-4 uppercase italic text-[#00D1FF] truncate">${p.name}</h3>
                         <div class="flex justify-between items-center border-t border-white/5 pt-6">
-                            <span class="text-xl md:text-2xl font-black text-[#39FF14]">${p.price} TK</span>
-                            <button onclick="event.stopPropagation(); buyNow('${p.name}', ${p.price})" class="bg-[#39FF14] text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase">Buy</button>
+                            <span class="text-xl font-black text-[#39FF14]">${p.price} TK</span>
+                            <button onclick="event.stopPropagation(); buyNow('${p.name}', ${p.price})" class="bg-[#39FF14] text-black px-4 py-2 rounded-lg font-black text-[10px] uppercase">Buy</button>
                         </div>
                     </div>
                 </div>`;
             }).join('');
-            
             window.scrollTo({top: 400, behavior: 'smooth'});
         }
 
@@ -381,15 +415,14 @@
             const { data: { user } } = await client.auth.getUser();
             const { data: orders } = await client.from('orders').select('*').eq('user_id', user.id).order('created_at', {ascending: false});
             document.getElementById('orders-list').innerHTML = orders.map(o => `
-                <div class="bg-[#161a21] p-6 md:p-8 rounded-[2rem] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div class="text-center md:text-left"><h4 class="font-black text-xl md:text-2xl uppercase italic text-[#00D1FF]">${o.product_name}</h4><p class="text-[10px] text-slate-500 font-bold uppercase">Status: ${o.status}</p></div>
-                    <div>${o.delivery_key ? `<div class="bg-[#39FF14]/10 p-4 rounded-xl border border-[#39FF14]/20"><span class="text-[9px] block text-[#39FF14] font-black uppercase mb-1">Your Key</span><code class="text-white font-mono font-bold select-all break-all">${o.delivery_key}</code></div>` : `<span class="text-amber-500 font-black text-[10px] uppercase animate-pulse">Processing...</span>`}</div>
-                </div>`).join('') || '<p class="text-center py-20 uppercase font-black">No orders yet.</p>';
+                <div class="bg-[#161a21] p-6 rounded-[2rem] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="text-center md:text-left"><h4 class="font-black text-xl uppercase italic text-[#00D1FF]">${o.product_name}</h4><p class="text-[10px] text-slate-500 font-bold uppercase">Status: ${o.status}</p></div>
+                    <div>${o.delivery_key ? `<div class="bg-[#39FF14]/10 p-4 rounded-xl border border-[#39FF14]/20 text-center"><span class="text-[9px] block text-[#39FF14] font-black uppercase mb-1">Your Key</span><code class="text-white font-mono font-bold select-all break-all">${o.delivery_key}</code></div>` : `<span class="text-amber-500 font-black text-[10px] uppercase animate-pulse">Wait for delivery</span>`}</div>
+                </div>`).join('') || '<p class="text-center py-20 uppercase font-black opacity-30">No orders yet.</p>';
         }
 
         let searchableProducts = [];
         let currentFiltered = [];
-
         async function prepareSearch() {
             const staticBoxes = [
                 { name: "Starter Box", price: 149, category: "Mystery", description: "Entry level collection.", image_url: "" },
@@ -428,7 +461,6 @@
         }
 
         document.getElementById('global-search').addEventListener('keydown', function(e) { if (e.key === 'Enter' && currentFiltered.length > 0) executeSearchSelect(0); });
-
         prepareSearch();
     </script>
 </body>
