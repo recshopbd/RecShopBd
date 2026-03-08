@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,20 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0b0d11; color: white; margin: 0; overflow-x: hidden; }
-        
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0d11;
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
         .hero-section {
-            background: linear-gradient(to bottom, rgba(11, 13, 17, 0.4), #0b0d11), 
-                        url('https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/background.png');
-            background-size: cover; background-position: center;
+            background: linear-gradient(to bottom, rgba(11, 13, 17, 0.4), #0b0d11),
+                url('https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/background.png');
+            background-size: cover;
+            background-position: center;
         }
 
         .box-card {
@@ -24,243 +33,255 @@
             cursor: pointer;
             overflow: hidden;
         }
-        .box-card:hover { transform: translateY(-10px); border-color: #00D1FF; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
+
+        .box-card:hover {
+            transform: translateY(-10px);
+            border-color: #00D1FF;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
 
         .gamers-choice-glow {
             border: 2px solid #39FF14;
             box-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
         }
 
-        .dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s; }
-        .group:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        
-        input { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
-        
-        #detail-modal { backdrop-filter: blur(20px); transition: all 0.3s ease-in-out; }
-        .description-text { white-space: pre-wrap; line-height: 1.8; }
-        
-        /* Dropdown custom transition */
-        #profile-dropdown { transition: all 0.2s ease-out; }
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s;
+        }
+
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        input {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: white !important;
+        }
+
+        #detail-modal {
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .description-text {
+            white-space: pre-wrap;
+            line-height: 1.8;
+        }
+
+        #profile-dropdown {
+            transition: all 0.2s ease-out;
+        }
     </style>
 </head>
+
 <body>
 
-    <nav class="flex items-center justify-between px-10 py-6 bg-[#090b0e]/90 backdrop-blur-md sticky top-0 z-[100] border-b border-white/5">
-        <div class="flex items-center gap-1 cursor-pointer" onclick="location.reload()">
-            <div><img width="120" height="20" src="https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/645767045_1045300431786946_9168206149520934376_n-removebg-preview_upscayl_4x_realesrgan-x4plus-anime.png" alt=""></div>
-        </div>
-
-        <!-- GLOBAL SEARCH BAR -->
-        <div class="relative hidden lg:block flex-1 max-w-md mx-10 z-[200]">
-            <div class="relative group">
-                <span class="absolute inset-y-0 left-4 flex items-center text-slate-500 group-focus-within:text-[#39FF14] transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </span>
-                <input type="text" id="global-search" oninput="handleSearch(this.value)" placeholder="Search games, wallet cards..." 
-                    class="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-12 pr-4 text-xs font-bold outline-none focus:border-[#39FF14] focus:bg-white/[0.08] transition shadow-2xl">
+    <nav class="sticky top-0 z-[100] bg-[#090b0e]/90 backdrop-blur-md border-b border-white/5 px-4 md:px-10 py-4 md:py-6">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <div class="flex items-center gap-1 cursor-pointer" onclick="location.reload()">
+                    <img width="100" class="md:w-[120px]" src="https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/645767045_1045300431786946_9168206149520934376_n-removebg-preview_upscayl_4x_realesrgan-x4plus-anime.png" alt="Logo">
+                </div>
                 
-                <!-- Search Results Dropdown -->
-                <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-3 glass rounded-3xl border border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[300]">
-                    <div id="search-items-container" class="max-h-[400px] overflow-y-auto divide-y divide-white/5"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="hidden md:flex gap-10 text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 items-center">
-            <a href="index.html" class="text-white border-b-2 border-[#00D1FF] pb-1">Home</a>
-            <div class="relative group cursor-pointer">
-                <div class="flex items-center gap-1 hover:text-white transition">Shop ▼</div>
-                <div class="dropdown-menu absolute left-0 mt-4 w-56 bg-[#12151c] border border-white/5 rounded-2xl py-4 z-50 shadow-2xl">
-                    <a onclick="showCategory('wallet')" class="block px-6 py-3 text-slate-400 hover:text-white hover:bg-[#00D1FF]/10 transition cursor-pointer">💳 Steam Wallet</a>
-                    <a onclick="showCategory('games')" class="block px-6 py-3 text-slate-400 hover:text-white hover:bg-[#00D1FF]/10 transition cursor-pointer">🎮 Premium Games</a>
-                    <a onclick="showCategory('keys')" class="block px-6 py-3 text-slate-400 hover:text-white hover:bg-[#00D1FF]/10 transition cursor-pointer">🔑 Random Keys</a>
+                <!-- Profile & Auth (Mobile Only position) -->
+                <div class="flex md:hidden items-center gap-3">
+                    <div id="auth-nav-mobile" class="flex items-center gap-3">
+                        <!-- Content synced by JS -->
+                    </div>
                 </div>
             </div>
 
-            <!-- Auth / Profile Section -->
-            <div id="auth-nav" class="relative flex items-center gap-4 border-l border-white/10 pl-6">
-                <!-- Login Button -->
-                <button onclick="toggleModal('auth-modal')" id="login-text" class="hover:text-white transition">Login / Signup</button>
-
-                <!-- Profile Trigger -->
-                <div id="user-profile-trigger" class="hidden relative">
-                    <button onclick="toggleProfileDropdown(event)" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:border-[#39FF14] transition shadow-xl">
-                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            <!-- GLOBAL SEARCH BAR -->
+            <div class="relative w-full md:flex-1 md:max-w-md md:mx-10 z-[200]">
+                <div class="relative group">
+                    <span class="absolute inset-y-0 left-4 flex items-center text-slate-500 group-focus-within:text-[#39FF14] transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-                    </button>
+                    </span>
+                    <input type="text" id="global-search" oninput="handleSearch(this.value)" placeholder="Search games, wallet cards..." 
+                        class="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-12 pr-4 text-xs font-bold outline-none focus:border-[#39FF14] transition shadow-2xl">
+                    
+                    <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-3 bg-[#0b0d11]/95 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl z-[300]">
+                        <div id="search-items-container" class="max-h-[300px] md:max-h-[400px] overflow-y-auto divide-y divide-white/5"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex gap-6 lg:gap-10 text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 items-center">
+                <a href="index.html" class="text-white border-b-2 border-[#00D1FF] pb-1">Home</a>
+                <div class="relative group cursor-pointer">
+                    <div class="flex items-center gap-1 hover:text-white transition">Shop ▼</div>
+                    <div class="dropdown-menu absolute left-0 mt-4 w-56 bg-[#12151c] border border-white/5 rounded-2xl py-4 z-50 shadow-2xl">
+                        <a onclick="showCategory('wallet')" class="block px-6 py-3 text-slate-400 hover:text-white hover:bg-[#00D1FF]/10 transition cursor-pointer">💳 Steam Wallet</a>
+                        <a onclick="showCategory('games')" class="block px-6 py-3 text-slate-400 hover:text-white hover:bg-[#00D1FF]/10 transition cursor-pointer">🎮 Premium Games</a>
+                        <a onclick="showCategory('keys')" class="block px-6 py-3 text-slate-400 hover:text-white hover:bg-[#00D1FF]/10 transition cursor-pointer">🔑 Random Keys</a>
+                    </div>
+                </div>
 
-                    <!-- Profile Dropdown -->
-                    <div id="profile-dropdown" class="hidden absolute right-0 mt-4 w-128 bg-[#0b0d11]/90 backdrop-blur-xl rounded-[2rem] border border-white/50 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[300]">
-                        <div class="p-6 bg-white/5 border-b border-white/5 flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-[#39FF14] flex items-center justify-center font-black text-black text-[10px]">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-                            </div>
-                            <div class="overflow-hidden">
+                <div id="auth-nav-desktop" class="relative flex items-center gap-4 border-l border-white/10 pl-6">
+                    <button onclick="toggleModal('auth-modal')" id="login-text" class="hover:text-white transition">Login / Signup</button>
+                    <div id="user-profile-trigger" class="hidden relative">
+                        <button onclick="toggleProfileDropdown(event)" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:border-[#39FF14] transition shadow-xl">
+                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        </button>
+                        <div id="profile-dropdown" class="hidden absolute right-0 mt-4 w-64 bg-[#0b0d11]/95 backdrop-blur-xl rounded-[2rem] border border-white/50 overflow-hidden shadow-2xl z-[300]">
+                            <div class="p-6 bg-white/5 border-b border-white/5">
                                 <p class="text-[9px] text-slate-500 font-black uppercase tracking-widest">Logged in as</p>
                                 <p id="dropdown-user-email" class="text-xs font-bold text-white truncate">...</p>
                             </div>
-                        </div>
-                        <div class="p-2">
-                            <button onclick="showProfile()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#39FF14]/10 hover:text-[#39FF14] transition text-left group">
-                                <span class="text-lg">🛒</span>
-                                <span class="text-[10px] font-black uppercase tracking-widest">My Orders</span>
-                            </button>
-                            <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 hover:text-red-500 transition text-left group">
-                                <span class="text-lg">🚪</span>
-                                <span class="text-[10px] font-black uppercase tracking-widest">Logout Account</span>
-                            </button>
+                            <div class="p-2">
+                                <button onclick="showProfile()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#39FF14]/10 hover:text-[#39FF14] transition text-left">
+                                    <span class="text-lg">🛒</span><span class="text-[10px] font-black uppercase">My Orders</span>
+                                </button>
+                                <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 hover:text-red-500 transition text-left">
+                                    <span class="text-lg">🚪</span><span class="text-[10px] font-black uppercase">Logout</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <a href="admin.html" class="hover:text-white transition">Admin</a>
+            </div>
+
+            <!-- Mobile Navigation Shortcuts (Visible only on mobile) -->
+            <div class="flex md:hidden gap-4 text-[9px] font-black uppercase tracking-widest text-slate-400 overflow-x-auto w-full pb-2 no-scrollbar">
+                <a onclick="showCategory('wallet')" class="whitespace-nowrap bg-white/5 px-4 py-2 rounded-full">💳 Wallet</a>
+                <a onclick="showCategory('games')" class="whitespace-nowrap bg-white/5 px-4 py-2 rounded-full">🎮 Games</a>
+                <a onclick="showCategory('keys')" class="whitespace-nowrap bg-white/5 px-4 py-2 rounded-full">🔑 Keys</a>
             </div>
         </div>
     </nav>
 
     <div id="main-content">
-        <header class="hero-section h-[500px] flex flex-col justify-center px-20">
+        <header class="hero-section h-[400px] md:h-[500px] flex flex-col justify-center px-6 md:px-20">
             <div class="inline-block bg-[#00D1FF]/10 border border-[#00D1FF]/30 text-[#00D1FF] text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest mb-6 w-fit">2026 Season Live</div>
-            <h1 class="text-6xl font-black mb-4 uppercase leading-[0.9] italic tracking-tighter">Your Gaming<br><span class="text-[#00D1FF]">Legacy Starts Here.</span></h1>
-            <p class="text-slate-400 text-sm max-w-lg leading-relaxed mb-8">Unlock premium Steam titles. Instant delivery to your profile.</p>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 uppercase leading-tight md:leading-[0.9] italic tracking-tighter">Your Gaming<br><span class="text-[#00D1FF]">Legacy Starts Here.</span></h1>
+            <p class="text-slate-400 text-xs md:text-sm max-w-lg leading-relaxed mb-8">Unlock premium Steam titles. Instant delivery to your profile.</p>
         </header>
 
-        <section id="box-grid" class="max-w-7xl mx-auto -mt-24 grid grid-cols-1 md:grid-cols-3 gap-10 px-10 pb-32">
+        <section id="box-grid" class="max-w-7xl mx-auto -mt-16 md:-mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 px-6 md:px-10 pb-32">
             <!-- Box 1 -->
-            <div onclick="openDetail('Starter Box', 149, 'The perfect entry point. Contains a mix of highly-rated Indie and Arcade classics. Great for starting your Steam collection.', '')" class="box-card p-12 flex flex-col items-center text-center">
+            <div onclick="openDetail('Starter Box', 149, 'The perfect entry point. Contains a mix of highly-rated Indie and Arcade classics.', '')" class="box-card p-8 md:p-12 flex flex-col items-center text-center">
                 <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">Entry Level</span>
-                <h3 class="text-2xl font-black mb-8 italic uppercase">Starter Box</h3>
-                <button onclick="event.stopPropagation(); buyNow('Starter Box', 149)" class="bg-[#C08C5D]/20 text-[#C08C5D] px-10 py-3 rounded-full font-black text-xs border border-[#C08C5D]/50 uppercase hover:bg-[#C08C5D] hover:text-white transition tracking-widest">149 TK</button>
+                <h3 class="text-xl md:text-2xl font-black mb-8 italic uppercase text-white">Starter Box</h3>
+                <button onclick="event.stopPropagation(); buyNow('Starter Box', 149)" class="bg-[#C08C5D]/20 text-[#C08C5D] px-10 py-3 rounded-full font-black text-xs border border-[#C08C5D]/50 uppercase tracking-widest">149 TK</button>
             </div>
             <!-- Box 2 -->
-            <div onclick="openDetail('Gamers Choice', 299, 'Our community favorite. A balanced mix of blockbuster AAA titles and premium Indie hits. Guaranteed value above retail price.', '')" class="box-card p-1 relative flex flex-col items-center text-center gamers-choice-glow scale-110 z-10 bg-[#161a21]">
-                <div class="bg-[#39FF14] text-black text-[10px] font-black px-6 py-1.5 rounded-full absolute -top-3 uppercase tracking-tighter">__________</div>
-                <div class="p-10 w-full">
+            <div onclick="openDetail('Gamers Choice', 299, 'Our community favorite. AAA titles and premium Indie hits.', '')" class="box-card p-1 relative flex flex-col items-center text-center gamers-choice-glow scale-100 md:scale-110 z-10 bg-[#161a21]">
+                <div class="bg-[#39FF14] text-black text-[9px] font-black px-6 py-1 rounded-full absolute -top-3 uppercase">Recommended</div>
+                <div class="p-8 md:p-10 w-full">
                     <span class="text-[10px] font-black text-green-500 uppercase tracking-[0.3em] mb-4">Most Popular</span>
-                    <h3 class="text-[#00D1FF] text-2xl font-black mb-10 italic uppercase">Gamer's Choice</h3>
+                    <h3 class="text-[#00D1FF] text-xl md:text-2xl font-black mb-10 italic uppercase">Gamer's Choice</h3>
                     <button onclick="event.stopPropagation(); buyNow('Gamers Choice', 299)" class="bg-[#39FF14] text-black w-full py-4 rounded-2xl font-black uppercase text-xs tracking-widest">Unbox Now</button>
                 </div>
             </div>
             <!-- Box 3 -->
-            <div onclick="openDetail('Elite Mystery', 599, 'The ultimate lottery. Strictly contains titles from the Steam Top Sellers list. No fillers, just pure blockbuster power.', '')" class="box-card p-12 flex flex-col items-center text-center">
+            <div onclick="openDetail('Elite Mystery', 599, 'Top Sellers list. No fillers, just blockbuster power.', '')" class="box-card p-8 md:p-12 flex flex-col items-center text-center">
                 <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">High Roller</span>
-                <h3 class="text-2xl font-black mb-8 italic uppercase">Elite Mystery</h3>
-                <button onclick="event.stopPropagation(); buyNow('Elite Mystery', 599)" class="bg-white/5 text-white px-10 py-3 rounded-full font-black text-xs border border-white/20 uppercase hover:bg-white hover:text-black transition tracking-widest">599 TK</button>
+                <h3 class="text-xl md:text-2xl font-black mb-8 italic uppercase text-white">Elite Mystery</h3>
+                <button onclick="event.stopPropagation(); buyNow('Elite Mystery', 599)" class="bg-white/5 text-white px-10 py-3 rounded-full font-black text-xs border border-white/20 uppercase tracking-widest">599 TK</button>
             </div>
         </section>
 
-        <section id="category-section" class="hidden max-w-7xl mx-auto px-10 pb-32">
-            <h2 id="cat-title" class="text-4xl font-black uppercase italic mb-10 text-[#00D1FF]"></h2>
-            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        <section id="category-section" class="hidden max-w-7xl mx-auto px-6 md:px-10 pb-32">
+            <h2 id="cat-title" class="text-3xl md:text-4xl font-black uppercase italic mb-10 text-[#00D1FF]"></h2>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
         </section>
     </div>
 
-    <!-- LARGE Detail Modal -->
+    <!-- LARGE Detail Modal (Responsive) -->
     <div id="detail-modal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[300] p-4 md:p-10">
-        <div class="bg-[#12151c] w-full max-w-5xl rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]">
-            
-            <div id="modal-header" class="w-full md:w-1/2 h-64 md:h-auto bg-slate-800 relative">
+        <div class="bg-[#12151c] w-full max-w-5xl rounded-[2rem] md:rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[95vh]">
+            <div id="modal-header" class="w-full md:w-1/2 h-48 md:h-auto bg-slate-800 relative">
                 <img id="modal-p-img" src="" class="w-full h-full object-cover opacity-80">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#12151c] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#12151c]"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#12151c] md:bg-gradient-to-r md:to-[#12151c]"></div>
+                <button onclick="closeDetail()" class="absolute top-4 right-4 text-white text-3xl md:hidden">&times;</button>
             </div>
-
-            <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between overflow-y-auto">
+            <div class="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-between overflow-y-auto">
                 <div>
                     <div class="flex justify-between items-start mb-6">
-                        <h2 id="modal-p-name" class="text-3xl md:text-5xl font-black uppercase italic text-white tracking-tighter leading-none">Product Name</h2>
-                        <button onclick="closeDetail()" class="text-slate-500 hover:text-white text-4xl font-light transition">&times;</button>
+                        <h2 id="modal-p-name" class="text-2xl md:text-5xl font-black uppercase italic text-white leading-tight">Product Name</h2>
+                        <button onclick="closeDetail()" class="hidden md:block text-slate-500 hover:text-white text-4xl font-light transition">&times;</button>
                     </div>
-                    
                     <div class="mb-8">
-                        <span class="text-[10px] font-black text-[#00D1FF] uppercase tracking-[0.3em] block mb-4 italic">Product Description</span>
-                        <p id="modal-p-desc" class="description-text text-slate-300 text-sm md:text-base leading-relaxed h-48 overflow-y-auto pr-4">
-                            Description goes here...
-                        </p>
+                        <span class="text-[9px] font-black text-[#00D1FF] uppercase tracking-widest block mb-2 italic">Product Description</span>
+                        <p id="modal-p-desc" class="description-text text-slate-300 text-sm md:text-base leading-relaxed h-32 md:h-48 overflow-y-auto pr-2">Description...</p>
                     </div>
                 </div>
-
-                <div class="flex flex-col sm:flex-row items-center justify-between border-t border-white/5 pt-8 gap-6">
-                    <div>
-                        <span class="text-[10px] font-black text-slate-500 uppercase block tracking-widest mb-1">Total Payable</span>
-                        <span id="modal-p-price" class="text-4xl md:text-5xl font-black text-[#39FF14] tracking-tighter italic">0 TK</span>
+                <div class="flex flex-col sm:flex-row items-center justify-between border-t border-white/5 pt-6 gap-6">
+                    <div class="text-center sm:text-left">
+                        <span class="text-[9px] font-black text-slate-500 uppercase block tracking-widest mb-1">Price</span>
+                        <span id="modal-p-price" class="text-3xl md:text-4xl font-black text-[#39FF14] tracking-tighter italic">0 TK</span>
                     </div>
-                    <button id="modal-buy-btn" class="w-full sm:w-auto bg-[#39FF14] text-black px-10 py-5 rounded-2xl font-black uppercase tracking-widest transition hover:scale-105 shadow-[0_0_30px_rgba(57,255,20,0.3)]">Proceed To Buy</button>
+                    <button id="modal-buy-btn" class="w-full sm:w-auto bg-[#39FF14] text-black px-10 py-4 rounded-xl font-black uppercase text-xs tracking-widest shadow-xl">Proceed To Buy</button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[200]">
-        <div class="bg-[#12151c] p-10 rounded-[2rem] border border-white/10 w-full max-w-md">
-            <h2 id="modal-title" class="text-2xl font-black uppercase mb-8 italic text-white">Login</h2>
-            <input type="email" id="email" placeholder="Email" class="w-full p-4 rounded-xl mb-4 outline-none">
-            <input type="password" id="pass" placeholder="Password" class="w-full p-4 rounded-xl mb-6 outline-none">
-            <button onclick="handleAuth()" class="w-full py-4 bg-[#39FF14] text-black font-black uppercase rounded-xl transition hover:scale-105">Continue</button>
-            <p class="text-center text-xs text-slate-500 mt-6"><button onclick="toggleAuthMode()" id="switch-btn" class="text-[#39FF14] underline">Need an account? Sign Up</button></p>
-            <button onclick="toggleModal('auth-modal')" class="w-full mt-4 text-slate-600 text-[10px] uppercase font-bold">Cancel</button>
         </div>
     </div>
 
     <!-- Profile View -->
-    <section id="profile-view" class="hidden max-w-5xl mx-auto px-10 py-20">
-        <h2 class="text-5xl font-black uppercase italic mb-12">My <span class="text-[#39FF14]">Orders</span></h2>
-        <div id="orders-list" class="space-y-6"></div>
+    <section id="profile-view" class="hidden max-w-5xl mx-auto px-6 md:px-10 py-10 md:py-20">
+        <h2 class="text-3xl md:text-5xl font-black uppercase italic mb-10">My <span class="text-[#39FF14]">Orders</span></h2>
+        <div id="orders-list" class="space-y-4"></div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-[#090b0e] pt-24 pb-12 border-t border-white/5 px-10 mt-20">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+    <footer class="bg-[#090b0e] pt-16 pb-12 border-t border-white/5 px-6 md:px-10 mt-20">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 text-center md:text-left">
             <div class="col-span-1">
-                <div class="flex items-center gap-2 mb-6">
-                    <div class="w-8 h-8 bg-[#39FF14] rounded-lg flex items-center justify-center font-black italic text-black text-sm">REC</div>
-                    <span class="font-black text-lg tracking-tighter uppercase italic text-white">SHOP</span>
+                <div class="flex items-center gap-2 mb-6 justify-center md:justify-start">
+                    <div class="w-8 h-8 bg-[#39FF14] rounded-lg flex items-center justify-center font-black italic text-black">REC</div>
+                    <span class="font-black text-lg text-white">SHOP</span>
                 </div>
-                <p class="text-slate-500 text-xs leading-relaxed mb-6">Bangladesh's most trusted digital gaming marketplace. Providing legal Steam keys, mystery drops, and wallet cards with instant delivery.</p>
-                <div class="flex gap-4">
-                    <a href="#" class="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#39FF14] hover:text-black transition duration-300">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                    </a>
-                </div>
+                <p class="text-slate-500 text-xs">Bangladesh's most trusted digital gaming marketplace.</p>
             </div>
             <div>
-                <h4 class="text-white text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic">Marketplace</h4>
-                <ul class="text-slate-500 text-[11px] font-bold space-y-4 uppercase tracking-wider">
-                    <li><a onclick="showCategory('games')" class="hover:text-[#39FF14] transition cursor-pointer">PC Games</a></li>
-                    <li><a onclick="showCategory('wallet')" class="hover:text-[#39FF14] transition cursor-pointer">Steam Wallet</a></li>
-                     <li><a onclick="showCategory('keys')" class="hover:text-[#39FF14] transition cursor-pointer">Random Keys</a></li>
+                <h4 class="text-white text-[10px] font-black uppercase mb-6 italic">Help & Legal</h4>
+                <ul class="text-slate-500 text-[11px] font-bold space-y-4 uppercase">
+                    <li><a href="help.html#redeem" class="hover:text-[#00D1FF]">Redeem Guide</a></li>
+                    <li><a href="help.html#refund" class="hover:text-[#00D1FF]">Refund Policy</a></li>
+                    <li><a href="help.html#terms" class="hover:text-[#00D1FF]">Terms</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="text-white text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic">Help & Legal</h4>
-                <ul class="text-slate-500 text-[11px] font-bold space-y-4 uppercase tracking-wider">
-                    <li><a href="help.html#redeem" class="hover:text-[#00D1FF] transition cursor-pointer">Redeem Guide</a></li>
-                    <li><a href="help.html#refund" class="hover:text-[#00D1FF] transition cursor-pointer">Refund Policy</a></li>
-                    <li><a href="help.html#terms" class="hover:text-[#00D1FF] transition cursor-pointer">Terms of Service</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic">Contact Info</h4>
-                <div class="text-slate-500 text-[11px] font-bold space-y-4 uppercase tracking-wider leading-loose">
-                    <p>📍 Dhaka, Bangladesh</p>
+                <h4 class="text-white text-[10px] font-black uppercase mb-6 italic">Contact</h4>
+                <div class="text-slate-500 text-[11px] font-bold space-y-2 uppercase leading-loose">
                     <p>✉️ support@recshop.com</p>
                     <p>📞 +880 1805536811</p>
-                     <div class="pt-4 flex gap-2">
-                    <span class="bg-white/5 px-3 py-1 rounded-md text-[9px] text-[#FF1493] border border-white/5">bKash Active</span>
-                    <span class="bg-white/5 px-3 py-1 rounded-md text-[9px] text-[#FFA500] border border-white/5">Nagad Active</span>
-                    <span class="bg-white/5 px-3 py-1 rounded-md text-[9px] text-[#FFA500] border border-white/5">Upay Active</span>
-                     </div>
+                </div>
+            </div>
+            <div>
+                <div class="flex flex-wrap justify-center md:justify-start gap-2 pt-4">
+                    <span class="bg-white/5 px-3 py-1 rounded text-[8px] text-[#FF1493] border border-white/5 uppercase">bKash</span>
+                    <span class="bg-white/5 px-3 py-1 rounded text-[8px] text-[#FFA500] border border-white/5 uppercase">Nagad</span>
+                    <span class="bg-white/5 px-3 py-1 rounded text-[8px] text-[#FFA500] border border-white/5 uppercase">Upay</span>
                 </div>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto pt-10 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-center md:text-left">
-            <p class="text-slate-600 text-[9px] font-black uppercase tracking-[0.2em]">© 2026 <span class="text-slate-400">RECSHOP DIGITAL LTD.</span> Designer & Devs - <a href="https://www.instagram.com/_bbatmann_/">Fardin Rifat</a>, <a href="https://www.instagram.com/demonisedsaint/">Aluminati</a></p>
-        
-           <div class="flex items-center gap-6 opacity-30 grayscale hover:opacity-100 transition duration-500 cursor-default">
-            <span class="text-[10px] font-black text-white italic">POWERED BY SUPABASE</span>
-            <span class="text-[10px] font-black text-white italic">CLOUDFLARE SECURED</span>
-           </div> 
+        <div class="max-w-7xl mx-auto pt-10 border-t border-white/5 text-center">
+            <p class="text-slate-600 text-[8px] font-black uppercase tracking-widest">© 2026 RECSHOP DIGITAL LTD.</p>
         </div>
     </footer>
+
+    <!-- Auth Modal (Mobile Friendly) -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[200] p-4">
+        <div class="bg-[#12151c] p-8 md:p-10 rounded-[2rem] border border-white/10 w-full max-w-md">
+            <h2 id="modal-title" class="text-2xl font-black uppercase mb-8 italic text-white text-center">Login</h2>
+            <input type="email" id="email" placeholder="Email" class="w-full p-4 rounded-xl mb-4 outline-none">
+            <input type="password" id="pass" placeholder="Password" class="w-full p-4 rounded-xl mb-6 outline-none">
+            <button onclick="handleAuth()" class="w-full py-4 bg-[#39FF14] text-black font-black uppercase rounded-xl shadow-lg">Continue</button>
+            <p class="text-center text-xs text-slate-500 mt-6"><button onclick="toggleAuthMode()" id="switch-btn" class="text-[#39FF14] underline">Need an account? Sign Up</button></p>
+            <button onclick="toggleModal('auth-modal')" class="w-full mt-4 text-slate-600 text-[9px] font-black uppercase tracking-widest">Cancel</button>
+        </div>
+    </div>
 
     <script>
         const SUPABASE_URL = 'https://pnfjgklkkadedtssxvbl.supabase.co';
@@ -269,28 +290,22 @@
 
         let isLogin = true;
 
-        // --- NEW: PROFILE DROPDOWN LOGIC ---
         function toggleProfileDropdown(event) {
             event.stopPropagation();
             document.getElementById('profile-dropdown').classList.toggle('hidden');
         }
 
-        // Close dropdown when clicking outside
         window.addEventListener('click', (e) => {
             const dropdown = document.getElementById('profile-dropdown');
-            if (dropdown && !e.target.closest('#user-profile-trigger')) {
-                dropdown.classList.add('hidden');
-            }
+            if (dropdown && !e.target.closest('#user-profile-trigger')) dropdown.classList.add('hidden');
         });
 
         function openDetail(name, price, desc, img) {
             document.getElementById('modal-p-name').innerText = name;
             document.getElementById('modal-p-price').innerText = price + " TK";
             document.getElementById('modal-p-desc').innerText = desc || "Premium digital product. Guaranteed licensed key delivery.";
-            
             const modalImg = document.getElementById('modal-p-img');
             modalImg.src = img || 'https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/background.png';
-
             document.getElementById('modal-buy-btn').onclick = () => buyNow(name, price);
             document.getElementById('detail-modal').classList.replace('hidden', 'flex');
         }
@@ -301,14 +316,17 @@
             const loginText = document.getElementById('login-text');
             const profileTrigger = document.getElementById('user-profile-trigger');
             const userEmailText = document.getElementById('dropdown-user-email');
+            const mobileAuth = document.getElementById('auth-nav-mobile');
 
             if (session) {
                 loginText.classList.add('hidden');
                 profileTrigger.classList.remove('hidden');
                 userEmailText.innerText = session.user.email;
+                mobileAuth.innerHTML = `<button onclick="showProfile()" class="w-8 h-8 rounded-full bg-[#39FF14] text-black font-black text-[10px]">ME</button>`;
             } else {
                 loginText.classList.remove('hidden');
                 profileTrigger.classList.add('hidden');
+                mobileAuth.innerHTML = `<button onclick="toggleModal('auth-modal')" class="text-[9px] font-black text-[#39FF14]">LOGIN</button>`;
             }
         });
 
@@ -326,12 +344,7 @@
         }
 
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); document.getElementById(id).classList.toggle('flex'); }
-        
-        async function handleLogout() { 
-            await client.auth.signOut(); 
-            location.reload(); 
-        }
-
+        async function handleLogout() { await client.auth.signOut(); location.reload(); }
         function buyNow(name, price) { window.location.href = `checkout.html?name=${encodeURIComponent(name)}&price=${price}`; }
 
         async function showCategory(cat) {
@@ -340,25 +353,24 @@
             const section = document.getElementById('category-section');
             section.classList.remove('hidden');
             document.getElementById('cat-title').innerText = cat === 'games' ? 'Premium Games' : (cat === 'wallet' ? 'Steam Wallet' : 'Random Keys');
-
             const { data } = await client.from('products').select('*').eq('category', cat);
             
             document.getElementById('product-grid').innerHTML = data.map(p => {
                 const safeDesc = (p.description || "").replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, "\\n").replace(/\r/g, "");
                 return `
                 <div onclick="openDetail('${p.name}', ${p.price}, '${safeDesc}', '${p.image_url || ''}')" class="box-card">
-                    ${p.image_url ? `<img src="${p.image_url}" class="w-full h-48 object-cover">` : `<div class="h-48 bg-slate-800 flex items-center justify-center text-slate-600 font-bold italic">NO IMAGE</div>`}
-                    <div class="p-8">
-                        <h3 class="text-xl font-black mb-4 uppercase italic text-[#00D1FF] truncate">${p.name}</h3>
+                    ${p.image_url ? `<img src="${p.image_url}" class="w-full h-40 md:h-48 object-cover">` : `<div class="h-40 md:h-48 bg-slate-800 flex items-center justify-center text-slate-600 font-bold italic">NO IMAGE</div>`}
+                    <div class="p-6 md:p-8">
+                        <h3 class="text-lg md:text-xl font-black mb-4 uppercase italic text-[#00D1FF] truncate">${p.name}</h3>
                         <div class="flex justify-between items-center border-t border-white/5 pt-6">
-                            <span class="text-2xl font-black text-[#39FF14]">${p.price} TK</span>
-                            <button onclick="event.stopPropagation(); buyNow('${p.name}', ${p.price})" class="bg-[#39FF14] text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase transition hover:scale-105">Buy</button>
+                            <span class="text-xl md:text-2xl font-black text-[#39FF14]">${p.price} TK</span>
+                            <button onclick="event.stopPropagation(); buyNow('${p.name}', ${p.price})" class="bg-[#39FF14] text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase">Buy</button>
                         </div>
                     </div>
                 </div>`;
             }).join('');
             
-            window.scrollTo({top: 500, behavior: 'smooth'});
+            window.scrollTo({top: 400, behavior: 'smooth'});
         }
 
         async function showProfile() {
@@ -369,21 +381,20 @@
             const { data: { user } } = await client.auth.getUser();
             const { data: orders } = await client.from('orders').select('*').eq('user_id', user.id).order('created_at', {ascending: false});
             document.getElementById('orders-list').innerHTML = orders.map(o => `
-                <div class="bg-[#161a21] p-8 rounded-[2rem] border border-white/5 flex justify-between items-center">
-                    <div><h4 class="font-black text-2xl uppercase italic text-[#00D1FF]">${o.product_name}</h4><p class="text-[10px] text-slate-500 font-bold uppercase">Status: ${o.status}</p></div>
-                    <div>${o.delivery_key ? `<div class="bg-[#39FF14]/10 p-4 rounded-xl border border-[#39FF14]/20"><span class="text-[9px] block text-[#39FF14] font-black uppercase mb-1">Your Key</span><code class="text-white font-mono font-bold select-all">${o.delivery_key}</code></div>` : `<span class="text-amber-500 font-black text-[10px] uppercase animate-pulse">Processing...</span>`}</div>
+                <div class="bg-[#161a21] p-6 md:p-8 rounded-[2rem] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="text-center md:text-left"><h4 class="font-black text-xl md:text-2xl uppercase italic text-[#00D1FF]">${o.product_name}</h4><p class="text-[10px] text-slate-500 font-bold uppercase">Status: ${o.status}</p></div>
+                    <div>${o.delivery_key ? `<div class="bg-[#39FF14]/10 p-4 rounded-xl border border-[#39FF14]/20"><span class="text-[9px] block text-[#39FF14] font-black uppercase mb-1">Your Key</span><code class="text-white font-mono font-bold select-all break-all">${o.delivery_key}</code></div>` : `<span class="text-amber-500 font-black text-[10px] uppercase animate-pulse">Processing...</span>`}</div>
                 </div>`).join('') || '<p class="text-center py-20 uppercase font-black">No orders yet.</p>';
         }
 
-        // --- SEARCH LOGIC ---
         let searchableProducts = [];
         let currentFiltered = [];
 
         async function prepareSearch() {
             const staticBoxes = [
-                { name: "Starter Box", price: 149, category: "Mystery", description: "The perfect entry point for new collectors.", image_url: "" },
-                { name: "Gamers Choice", price: 299, category: "Mystery", description: "Our community favorite balanced mix.", image_url: "" },
-                { name: "Elite Mystery", price: 599, category: "Mystery", description: "The ultimate lottery with Top AAA titles.", image_url: "" }
+                { name: "Starter Box", price: 149, category: "Mystery", description: "Entry level collection.", image_url: "" },
+                { name: "Gamers Choice", price: 299, category: "Mystery", description: "Community favorite mix.", image_url: "" },
+                { name: "Elite Mystery", price: 599, category: "Mystery", description: "Top AAA titles.", image_url: "" }
             ];
             const { data: dbProducts } = await client.from('products').select('*');
             searchableProducts = [...staticBoxes, ...(dbProducts || [])];
@@ -398,17 +409,12 @@
                 dropdown.classList.remove('hidden');
                 container.innerHTML = currentFiltered.map((p, index) => `
                     <div onclick="executeSearchSelect(${index})" class="flex items-center gap-4 p-4 hover:bg-[#39FF14]/10 cursor-pointer transition group">
-                        <div class="w-10 h-10 bg-slate-800 rounded-lg overflow-hidden flex-shrink-0">
-                            <img src="${p.image_url || 'https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/background.png'}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-1">
-                            <div class="text-xs font-black uppercase italic group-hover:text-[#39FF14] transition">${p.name}</div>
-                            <div class="text-[9px] text-slate-500 uppercase font-bold">${p.category || 'Product'}</div>
-                        </div>
+                        <div class="w-10 h-10 bg-slate-800 rounded-lg overflow-hidden flex-shrink-0"><img src="${p.image_url || 'https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/background.png'}" class="w-full h-full object-cover"></div>
+                        <div class="flex-1 overflow-hidden"><div class="text-xs font-black uppercase italic group-hover:text-[#39FF14] truncate">${p.name}</div><div class="text-[9px] text-slate-500 uppercase font-bold">${p.category || 'Product'}</div></div>
                         <div class="text-xs font-black text-[#39FF14]">${p.price} TK</div>
                     </div>`).join('');
             } else {
-                container.innerHTML = `<div class="p-6 text-center text-slate-500 text-[10px] font-black uppercase tracking-widest">No results found</div>`;
+                container.innerHTML = `<div class="p-6 text-center text-slate-500 text-[10px] font-black uppercase">No results found</div>`;
                 dropdown.classList.remove('hidden');
             }
         }
@@ -421,13 +427,10 @@
             openDetail(item.name, item.price, item.description, item.image_url);
         }
 
-        document.getElementById('global-search').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && currentFiltered.length > 0) executeSearchSelect(0);
-        });
+        document.getElementById('global-search').addEventListener('keydown', function(e) { if (e.key === 'Enter' && currentFiltered.length > 0) executeSearchSelect(0); });
 
         prepareSearch();
     </script>
 </body>
 
 </html>
-
