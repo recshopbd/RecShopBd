@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Legal | RECSHOP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0b0d11; color: white; margin: 0; overflow-x: hidden; }
+        
+        .glass { 
+            background: rgba(22, 26, 33, 0.8); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-link { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.2em; color: #94a3b8; transition: 0.3s; }
+        .nav-link:hover { color: #39FF14; }
+
+        .legal-card { border-radius: 2rem; padding: 3rem; margin-bottom: 2rem; }
+        
+        h2 { font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 2.5rem; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+        .section-title { color: #39FF14; }
+        
+        li { margin-bottom: 1rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+        strong { color: white; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0d11; }
+        ::-webkit-scrollbar-thumb { background: #1e232d; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="flex items-center justify-between px-10 py-6 bg-[#090b0e]/90 backdrop-blur-md sticky top-0 z-[100] border-b border-white/5">
+        <div class="flex items-center gap-1 cursor-pointer" onclick="window.location.href='index.html'">
+            <img width="120" src="https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/645767045_1045300431786946_9168206149520934376_n-removebg-preview_upscayl_4x_realesrgan-x4plus-anime.png" alt="RecShop Logo">
+        </div>
+        
+        <div class="hidden md:flex gap-8 items-center">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="#redeem" class="nav-link">Redeem Guide</a>
+            <a href="#refund" class="nav-link">Refund Policy</a>
+            <a href="#terms" class="nav-link">Terms</a>
+        </div>
+
+        <a href="https://wa.me/8801805536811" target="_blank" class="bg-[#25D366] text-black text-[10px] font-black px-6 py-2.5 rounded-full uppercase transition hover:scale-105">WhatsApp Support</a>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="py-24 px-10 text-center bg-gradient-to-b from-[#12151c] to-[#0b0d11]">
+        <span class="text-[#39FF14] text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Information Center</span>
+        <h1 class="text-6xl font-black uppercase italic tracking-tighter">Help & <span class="text-[#00D1FF]">Legal.</span></h1>
+        <p class="text-slate-500 mt-6 max-w-2xl mx-auto">Everything you need to know about using RecShop, redeeming your digital keys, and our service commitments.</p>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-10 pb-40">
+        
+        <!-- SECTION 1: REDEEM GUIDE -->
+        <section id="redeem" class="glass legal-card">
+            <h2 class="section-title">Redeem Guide</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
+                <div>
+                    <h3 class="text-[#00D1FF] font-black uppercase text-xs mb-4 tracking-widest">How to redeem Steam Keys</h3>
+                    <ul class="list-decimal list-inside">
+                        <li>Launch the <strong>Steam Client</strong> and log into your account.</li>
+                        <li>Click the <strong>Games Menu</strong> at the top of the window.</li>
+                        <li>Choose <strong>Activate a Product on Steam...</strong></li>
+                        <li>Follow the on-screen instructions and paste your <strong>RecShop Key</strong>.</li>
+                        <li>The game will be added to your <strong>Library</strong> instantly.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-[#00D1FF] font-black uppercase text-xs mb-4 tracking-widest">How to redeem Wallet Cards</h3>
+                    <ul class="list-decimal list-inside">
+                        <li>Visit the <strong>Steam Wallet Redeem</strong> page on your browser.</li>
+                        <li>Enter your <strong>Wallet Code</strong> delivered by RecShop.</li>
+                        <li>Click <strong>Continue</strong> to add the funds to your account.</li>
+                        <li>Note: Funds will be converted based on your <strong>Store Region</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: REFUND POLICY -->
+        <section id="refund" class="glass legal-card border-l-4 border-[#00D1FF]">
+            <h2 class="section-title">Refund Policy</h2>
+            <p class="text-slate-400 mb-8 leading-relaxed">At RecShop, we deal exclusively in <strong>Digital Intangible Goods</strong>. Because codes are revealed upon purchase, our refund policy is strict to prevent fraud.</p>
+            <div class="space-y-6">
+                <div class="bg-white/5 p-6 rounded-2xl">
+                    <p class="text-sm font-bold text-white mb-2 uppercase italic">Eligible for Refund/Replacement:</p>
+                    <ul class="list-disc list-inside m-0">
+                        <li>The key provided is invalid or already redeemed (requires screenshot proof).</li>
+                        <li>The product is out of stock after payment is verified.</li>
+                    </ul>
+                </div>
+                <div class="bg-red-500/5 p-6 rounded-2xl border border-red-500/10">
+                    <p class="text-sm font-bold text-red-500 mb-2 uppercase italic">Not Eligible for Refund:</p>
+                    <ul class="list-disc list-inside m-0 text-slate-500">
+                        <li>Change of mind after the key has been delivered.</li>
+                        <li>Game incompatibility with your PC hardware.</li>
+                        <li>Incorrect region purchase by the customer.</li>
+                        <li>Accidental purchase of a game you already own.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: TERMS OF SERVICE -->
+        <section id="terms" class="glass legal-card border-l-4 border-[#39FF14]">
+            <h2 class="section-title">Terms of Service</h2>
+            <div class="space-y-8 mt-10">
+                <div>
+                    <h4 class="text-white font-bold mb-2 uppercase text-sm">1. Delivery Timeline</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">While most deliveries are instant, please allow <strong>5 to 60 minutes</strong> for manual verification of high-value orders or during peak hours.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2 uppercase text-sm">2. User Responsibility</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">You are responsible for maintaining the security of your RecShop account. Do not share your delivery keys with third parties until you have successfully redeemed them.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2 uppercase text-sm">3. Pricing & Currency</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">All prices are in <strong>BDT (Bangladeshi Taka)</strong>. We reserve the right to adjust pricing based on international market fluctuations without prior notice.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2 uppercase text-sm">4. Fraud Prevention</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">Any attempt to use fake Transaction IDs will result in a permanent ban of your account and your IP address from our services.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Simple Legal Footer -->
+    <footer class="bg-[#090b0e] py-12 px-10 border-t border-white/5 text-center">
+        <p class="text-slate-600 text-[10px] font-black uppercase tracking-widest">© 2026 RECSHOP DIGITAL LTD. All Rights Reserved.</p>
+        <button onclick="window.location.href='index.html'" class="mt-6 text-[#39FF14] text-[10px] font-black uppercase hover:underline">Return to Marketplace</button>
+    </footer>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Legal | RECSHOP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0b0d11; color: white; margin: 0; overflow-x: hidden; }
+        
+        .glass { 
+            background: rgba(22, 26, 33, 0.8); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-link { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.2em; color: #94a3b8; transition: 0.3s; }
+        .nav-link:hover { color: #39FF14; }
+
+        .legal-card { border-radius: 2rem; padding: 3rem; margin-bottom: 2rem; }
+        
+        h2 { font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 2.5rem; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+        .section-title { color: #39FF14; }
+        
+        li { margin-bottom: 1rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+        strong { color: white; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0d11; }
+        ::-webkit-scrollbar-thumb { background: #1e232d; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="flex items-center justify-between px-10 py-6 bg-[#090b0e]/90 backdrop-blur-md sticky top-0 z-[100] border-b border-white/5">
+        <div class="flex items-center gap-1 cursor-pointer" onclick="window.location.href='index.html'">
+            <img width="120" src="https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/645767045_1045300431786946_9168206149520934376_n-removebg-preview_upscayl_4x_realesrgan-x4plus-anime.png" alt="RecShop Logo">
+        </div>
+        
+        <div class="hidden md:flex gap-8 items-center">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="#redeem" class="nav-link">Redeem Guide</a>
+            <a href="#refund" class="nav-link">Refund Policy</a>
+            <a href="#terms" class="nav-link">Terms</a>
+        </div>
+
+        <a href="https://wa.me/8801805536811" target="_blank" class="bg-[#25D366] text-black text-[10px] font-black px-6 py-2.5 rounded-full uppercase transition hover:scale-105">WhatsApp Support</a>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="py-24 px-10 text-center bg-gradient-to-b from-[#12151c] to-[#0b0d11]">
+        <span class="text-[#39FF14] text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Information Center</span>
+        <h1 class="text-6xl font-black uppercase italic tracking-tighter">Help & <span class="text-[#00D1FF]">Legal.</span></h1>
+        <p class="text-slate-500 mt-6 max-w-2xl mx-auto">Everything you need to know about using RecShop, redeeming your digital keys, and our service commitments.</p>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-10 pb-40">
+        
+        <!-- SECTION 1: REDEEM GUIDE -->
+        <section id="redeem" class="glass legal-card">
+            <h2 class="section-title">Redeem Guide</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
+                <div>
+                    <h3 class="text-[#00D1FF] font-black uppercase text-xs mb-4 tracking-widest">How to redeem Steam Keys</h3>
+                    <ul class="list-decimal list-inside">
+                        <li>Launch the <strong>Steam Client</strong> and log into your account.</li>
+                        <li>Click the <strong>Games Menu</strong> at the top of the window.</li>
+                        <li>Choose <strong>Activate a Product on Steam...</strong></li>
+                        <li>Follow the on-screen instructions and paste your <strong>RecShop Key</strong>.</li>
+                        <li>The game will be added to your <strong>Library</strong> instantly.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-[#00D1FF] font-black uppercase text-xs mb-4 tracking-widest">How to redeem Wallet Cards</h3>
+                    <ul class="list-decimal list-inside">
+                        <li>Visit the <strong>Steam Wallet Redeem</strong> page on your browser.</li>
+                        <li>Enter your <strong>Wallet Code</strong> delivered by RecShop.</li>
+                        <li>Click <strong>Continue</strong> to add the funds to your account.</li>
+                        <li>Note: Funds will be converted based on your <strong>Store Region</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: REFUND POLICY -->
+        <section id="refund" class="glass legal-card border-l-4 border-[#00D1FF]">
+            <h2 class="section-title">Refund Policy</h2>
+            <p class="text-slate-400 mb-8 leading-relaxed">At RecShop, we deal exclusively in <strong>Digital Intangible Goods</strong>. Because codes are revealed upon purchase, our refund policy is strict to prevent fraud.</p>
+            <div class="space-y-6">
+                <div class="bg-white/5 p-6 rounded-2xl">
+                    <p class="text-sm font-bold text-white mb-2 uppercase italic">Eligible for Refund/Replacement:</p>
+                    <ul class="list-disc list-inside m-0">
+                        <li>The key provided is invalid or already redeemed (requires screenshot proof).</li>
+                        <li>The product is out of stock after payment is verified.</li>
+                    </ul>
+                </div>
+                <div class="bg-red-500/5 p-6 rounded-2xl border border-red-500/10">
+                    <p class="text-sm font-bold text-red-500 mb-2 uppercase italic">Not Eligible for Refund:</p>
+                    <ul class="list-disc list-inside m-0 text-slate-500">
+                        <li>Change of mind after the key has been delivered.</li>
+                        <li>Game incompatibility with your PC hardware.</li>
+                        <li>Incorrect region purchase by the customer.</li>
+                        <li>Accidental purchase of a game you already own.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: TERMS OF SERVICE -->
+        <section id="terms" class="glass legal-card border-l-4 border-[#39FF14]">
+            <h2 class="section-title">Terms of Service</h2>
+            <div class="space-y-8 mt-10">
+                <div>
+                    <h4 class="text-white font-bold mb-2 uppercase text-sm">1. Delivery Timeline</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">While most deliveries are instant, please allow <strong>5 to 60 minutes</strong> for manual verification of high-value orders or during peak hours.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2 uppercase text-sm">2. User Responsibility</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">You are responsible for maintaining the security of your RecShop account. Do not share your delivery keys with third parties until you have successfully redeemed them.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2 uppercase text-sm">3. Pricing & Currency</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">All prices are in <strong>BDT (Bangladeshi Taka)</strong>. We reserve the right to adjust pricing based on international market fluctuations without prior notice.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-2 uppercase text-sm">4. Fraud Prevention</h4>
+                    <p class="text-slate-500 text-sm leading-relaxed">Any attempt to use fake Transaction IDs will result in a permanent ban of your account and your IP address from our services.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Simple Legal Footer -->
+    <footer class="bg-[#090b0e] py-12 px-10 border-t border-white/5 text-center">
+        <p class="text-slate-600 text-[10px] font-black uppercase tracking-widest">© 2026 RECSHOP DIGITAL LTD. All Rights Reserved.</p>
+        <button onclick="window.location.href='index.html'" class="mt-6 text-[#39FF14] text-[10px] font-black uppercase hover:underline">Return to Marketplace</button>
+    </footer>
+
+</body>
+</html>
