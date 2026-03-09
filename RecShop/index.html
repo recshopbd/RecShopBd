@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,8 +59,8 @@
         }
 
         input {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
             color: white !important;
         }
 
@@ -167,12 +168,14 @@
         </header>
 
         <section id="box-grid" class="max-w-7xl mx-auto -mt-16 md:-mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 px-6 md:px-10 pb-32">
+            <!-- Box 1 -->
             <div onclick="openDetail('Starter Box', 149, 'The perfect entry point. Contains a mix of highly-rated Indie and Arcade classics.', '')" class="box-card p-8 md:p-12 flex flex-col items-center text-center">
                 <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">Entry Level</span>
                 <h3 class="text-xl md:text-2xl font-black mb-8 italic uppercase text-white">Starter Box</h3>
-                <button onclick="event.stopPropagation(); buyNow('Starter Box', 149)" class="bg-[#C08C5D]/20 text-[#C08C5D] px-10 py-3 rounded-full font-black text-xs border border-[#C08C5D]/50 uppercase hover:bg-[#C08C5D] hover:text-white transition tracking-widest">149 TK</button>
+                <button onclick="event.stopPropagation(); buyNow('Starter Box', 149)" class="bg-[#C08C5D]/20 text-[#C08C5D] px-10 py-3 rounded-full font-black text-xs border border-[#C08C5D]/50 uppercase tracking-widest">149 TK</button>
             </div>
-            <div onclick="openDetail('Gamers Choice', 299, 'Our community favorite. A balanced mix of blockbuster AAA titles and premium Indie hits.', '')" class="box-card p-1 relative flex flex-col items-center text-center gamers-choice-glow scale-100 md:scale-110 z-10 bg-[#161a21]">
+            <!-- Box 2 -->
+            <div onclick="openDetail('Gamers Choice', 299, 'Our community favorite. AAA titles and premium Indie hits.', '')" class="box-card p-1 relative flex flex-col items-center text-center gamers-choice-glow scale-100 md:scale-110 z-10 bg-[#161a21]">
                 <div class="bg-[#39FF14] text-black text-[9px] font-black px-6 py-1 rounded-full absolute -top-3 uppercase">Recommended</div>
                 <div class="p-8 md:p-10 w-full">
                     <span class="text-[10px] font-black text-green-500 uppercase tracking-[0.3em] mb-4">Most Popular</span>
@@ -180,10 +183,11 @@
                     <button onclick="event.stopPropagation(); buyNow('Gamers Choice', 299)" class="bg-[#39FF14] text-black w-full py-4 rounded-2xl font-black uppercase text-xs tracking-widest">Unbox Now</button>
                 </div>
             </div>
-            <div onclick="openDetail('Elite Mystery', 599, 'The ultimate lottery. Strictly contains titles from the Steam Top Sellers list.', '')" class="box-card p-8 md:p-12 flex flex-col items-center text-center">
+            <!-- Box 3 -->
+            <div onclick="openDetail('Elite Mystery', 599, 'Top Sellers list. No fillers, just blockbuster power.', '')" class="box-card p-8 md:p-12 flex flex-col items-center text-center">
                 <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">High Roller</span>
                 <h3 class="text-xl md:text-2xl font-black mb-8 italic uppercase text-white">Elite Mystery</h3>
-                <button onclick="event.stopPropagation(); buyNow('Elite Mystery', 599)" class="bg-white/5 text-white px-10 py-3 rounded-full font-black text-xs border border-white/20 uppercase hover:bg-white hover:text-black transition tracking-widest">599 TK</button>
+                <button onclick="event.stopPropagation(); buyNow('Elite Mystery', 599)" class="bg-white/5 text-white px-10 py-3 rounded-full font-black text-xs border border-white/20 uppercase tracking-widest">599 TK</button>
             </div>
         </section>
 
@@ -196,10 +200,10 @@
     <!-- LARGE Detail Modal (Responsive) -->
     <div id="detail-modal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[300] p-4 md:p-10">
         <div class="bg-[#12151c] w-full max-w-5xl rounded-[2rem] md:rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[95vh]">
-            <div id="modal-header" class="w-full md:w-1/2 h-48 md:h-auto bg-slate-800 relative">
+            <div id="modal-header" class="w-full md:w-1/2 h-64 md:h-auto min-h-[250px] md:min-h-auto bg-slate-800 relative">
                 <img id="modal-p-img" src="" class="w-full h-full object-cover opacity-80">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#12151c] md:bg-gradient-to-r md:to-[#12151c]"></div>
-                <button onclick="closeDetail()" class="absolute top-4 right-4 text-white text-3xl md:hidden">&times;</button>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#12151c] md:bg-gradient-to-r md:from-transparent md:to-[#12151c]"></div>
+                <button onclick="closeDetail()" class="absolute top-4 right-4 text-white text-3xl md:hidden z-20">&times;</button>
             </div>
             <div class="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-between overflow-y-auto">
                 <div>
@@ -229,7 +233,7 @@
         <div id="orders-list" class="space-y-4"></div>
     </section>
 
-     <!-- FOOTER -->
+   <!-- FOOTER -->
     <footer class="bg-[#090b0e] pt-24 pb-12 border-t border-white/5 px-10 mt-20">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
             <div class="col-span-1">
@@ -352,7 +356,11 @@
             document.getElementById('modal-p-price').innerText = price + " TK";
             document.getElementById('modal-p-desc').innerText = desc || "Premium digital product. Guaranteed licensed key delivery.";
             const modalImg = document.getElementById('modal-p-img');
-            modalImg.src = img || 'https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/background.png';
+            
+            // Fixed image handling
+            const imageUrl = (img && img !== '' && img !== 'undefined') ? img : 'https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/background.png';
+            modalImg.src = imageUrl;
+            
             document.getElementById('modal-buy-btn').onclick = () => buyNow(name, price);
             document.getElementById('detail-modal').classList.replace('hidden', 'flex');
         }
@@ -389,16 +397,16 @@
             document.getElementById('cat-title').innerText = (cat === 'games' ? 'Premium Games' : cat === 'wallet' ? 'Steam Wallet' : 'Random Keys');
             const { data } = await client.from('products').select('*').eq('category', cat);
             
-            document.getElementById('product-grid').innerHTML = data.map(p => {
+            document.getElementById('product-grid').innerHTML = (data || []).map(p => {
                 const safeDesc = (p.description || "").replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, "\\n").replace(/\r/g, "");
                 return `
                 <div onclick="openDetail('${p.name}', ${p.price}, '${safeDesc}', '${p.image_url || ''}')" class="box-card">
-                    ${p.image_url ? `<img src="${p.image_url}" class="w-full h-40 md:h-48 object-cover">` : `<div class="h-40 md:h-48 bg-slate-800 flex items-center justify-center text-slate-600 font-bold italic">READY</div>`}
+                    ${p.image_url ? `<img src="${p.image_url}" class="w-full h-40 md:h-48 object-cover">` : `<div class="h-40 md:h-48 bg-slate-800 flex items-center justify-center text-slate-600 font-bold italic text-xs">READY</div>`}
                     <div class="p-6">
                         <h3 class="text-base md:text-xl font-black mb-4 uppercase italic text-[#00D1FF] truncate">${p.name}</h3>
                         <div class="flex justify-between items-center border-t border-white/5 pt-6">
                             <span class="text-xl font-black text-[#39FF14]">${p.price} TK</span>
-                            <button onclick="event.stopPropagation(); buyNow('${p.name}', ${p.price})" class="bg-[#39FF14] text-black px-4 py-2 rounded-lg font-black text-[10px] uppercase">Buy</button>
+                            <button onclick="event.stopPropagation(); buyNow('${p.name}', ${p.price})" class="bg-[#39FF14] text-black px-6 py-2 rounded-lg font-black text-[10px] uppercase">Buy</button>
                         </div>
                     </div>
                 </div>`;
@@ -413,7 +421,7 @@
             document.getElementById('profile-view').classList.remove('hidden');
             const { data: { user } } = await client.auth.getUser();
             const { data: orders } = await client.from('orders').select('*').eq('user_id', user.id).order('created_at', {ascending: false});
-            document.getElementById('orders-list').innerHTML = orders.map(o => `
+            document.getElementById('orders-list').innerHTML = (orders || []).map(o => `
                 <div class="bg-[#161a21] p-6 rounded-[2rem] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div class="text-center md:text-left"><h4 class="font-black text-xl uppercase italic text-[#00D1FF]">${o.product_name}</h4><p class="text-[10px] text-slate-500 font-bold uppercase">Status: ${o.status}</p></div>
                     <div>${o.delivery_key ? `<div class="bg-[#39FF14]/10 p-4 rounded-xl border border-[#39FF14]/20 text-center"><span class="text-[9px] block text-[#39FF14] font-black uppercase mb-1">Your Key</span><code class="text-white font-mono font-bold select-all break-all">${o.delivery_key}</code></div>` : `<span class="text-amber-500 font-black text-[10px] uppercase animate-pulse">Wait for delivery</span>`}</div>
@@ -463,6 +471,4 @@
         prepareSearch();
     </script>
 </body>
-
 </html>
-
