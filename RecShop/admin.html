@@ -11,18 +11,23 @@
         body { font-family: 'Inter', sans-serif; background-color: #0b0d11; color: white; margin: 0; display: none; }
         .glass { background: rgba(22, 26, 33, 0.8); border: 1px solid rgba(255, 255, 255, 0.05); }
         .sidebar-btn { transition: all 0.3s; border-radius: 12px; color: #64748b; }
+        
         .sidebar-btn.active { background: #39FF14; color: black; }
         .order-row { transition: all 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+        .order-row:hover { background: rgba(57, 255, 20, 0.02); }
         .order-details { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); background: rgba(0,0,0,0.2); }
         .order-row.expanded + .order-details { max-height: 600px; border-bottom: 1px solid rgba(57, 255, 20, 0.2); }
         input, textarea, select { background: rgba(0,0,0,0.4) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; outline: none; }
         input:focus, select:focus { border-color: #39FF14 !important; }
+
+        /* Analytics Specific Styles */
+        .stat-card { background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body class="min-h-screen flex" id="admin-body">
 
     <aside class="w-64 bg-[#090b0e] border-r border-white/5 fixed h-full p-8 flex flex-col">
-        <div class="flex items-center gap-2 mb-12"><div class="w-8 h-8 bg-[#39FF14] rounded flex items-center justify-center font-black text-black text-xs">REC</div><span class="font-black italic uppercase tracking-tighter">Admin Panel</span></div>
+        <div class="flex items-center gap-2 mb-12"><div class="w-8 h-8 bg-[#39FF14] rounded flex items-center justify-center font-black text-black text-xs">REC</div><span class="font-black italic uppercase tracking-tighter text-white">Admin Panel</span></div>
         <nav class="space-y-3 flex-1">
             <button onclick="switchTab('orders')" id="btn-orders" class="sidebar-btn active w-full text-left px-6 py-3 font-bold text-[10px] uppercase tracking-widest">🛒 Live Orders</button>
             <button onclick="switchTab('inventory')" id="btn-inventory" class="sidebar-btn w-full text-left px-6 py-3 font-bold text-[10px] uppercase tracking-widest text-slate-500">📦 Manage Products</button>
@@ -32,13 +37,34 @@
     </aside>
 
     <main class="flex-1 ml-64 p-12">
+        
+        <!-- NEW: ANALYTICS OVERVIEW SECTION -->
+        <div id="analytics-bar" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+            <div class="stat-card p-6 rounded-3xl border-l-4 border-[#39FF14]">
+                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Total Revenue</p>
+                <h3 id="stat-revenue" class="text-2xl font-black text-white mt-1 italic tracking-tighter">0 TK</h3>
+            </div>
+            <div class="stat-card p-6 rounded-3xl border-l-4 border-[#00D1FF]">
+                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Active Orders</p>
+                <h3 id="stat-pending" class="text-2xl font-black text-white mt-1 italic tracking-tighter">0</h3>
+            </div>
+            <div class="stat-card p-6 rounded-3xl border-l-4 border-purple-500">
+                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Lifetime Sales</p>
+                <h3 id="stat-total-orders" class="text-2xl font-black text-white mt-1 italic tracking-tighter">0</h3>
+            </div>
+            <div class="stat-card p-6 rounded-3xl border-l-4 border-pink-500">
+                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Total Discounts</p>
+                <h3 id="stat-discounts" class="text-2xl font-black text-white mt-1 italic tracking-tighter">0 TK</h3>
+            </div>
+        </div>
+
         <!-- Orders Tab -->
         <div id="tab-orders">
             <h2 class="text-4xl font-black uppercase italic tracking-tighter mb-10 text-[#39FF14]">Live Orders</h2>
             <div class="glass rounded-[2rem] overflow-hidden"><div id="orders-list"></div></div>
         </div>
 
-        <!-- Inventory Tab (Now with Edit Button) -->
+        <!-- Inventory Tab -->
         <div id="tab-inventory" class="hidden">
             <div class="flex justify-between items-center mb-10">
                 <h2 class="text-4xl font-black uppercase italic tracking-tighter text-[#00D1FF]">Inventory</h2>
@@ -75,7 +101,7 @@
         </div>
     </main>
 
-    <!-- Product Modal (Add & Edit) -->
+    <!-- Product Modal -->
     <div id="product-modal" class="fixed inset-0 bg-black/95 z-[500] hidden items-center justify-center p-6">
         <div class="glass p-10 rounded-[2.5rem] w-full max-w-md border border-white/10 text-white">
             <h3 id="modal-type-title" class="text-2xl font-black uppercase italic mb-8">New Product</h3>
@@ -83,7 +109,7 @@
                 <input id="new-p-name" type="text" placeholder="Name" class="w-full p-4 rounded-xl">
                 <input id="new-p-price" type="number" placeholder="Price" class="w-full p-4 rounded-xl">
                 <div>
-                    <label class="text-[9px] uppercase font-bold text-slate-500 ml-1">Update Photo (Leave empty to keep current)</label>
+                    <label class="text-[9px] uppercase font-bold text-slate-500 ml-1">Update Photo</label>
                     <input id="new-p-img" type="file" accept="image/*" class="w-full p-2 mt-1 rounded-lg text-xs">
                 </div>
                 <select id="new-p-cat" class="w-full p-4 rounded-xl"><option value="games">PC Games</option><option value="wallet">Steam Wallet</option><option value="keys">Random Keys</option></select>
@@ -104,7 +130,7 @@
         emailjs.init("-ib_0931Q_Rh-38SX");
         const ADMIN_EMAIL = 'rifatfardin0@gmail.com';
         
-        let editingProductId = null; // Track if we are editing
+        let editingProductId = null;
 
         async function checkAdmin() {
             const { data: { user } } = await client.auth.getUser();
@@ -126,7 +152,20 @@
             if(tab === 'orders') fetchOrders();
         }
 
-        // --- INVENTORY (With Edit logic) ---
+        // --- ANALYTICS ENGINE ---
+        function updateAnalytics(orders) {
+            const delivered = orders.filter(o => o.status === 'delivered');
+            const totalRevenue = delivered.reduce((sum, o) => sum + (parseFloat(o.total_price) || 0), 0);
+            const pendingCount = orders.filter(o => o.status === 'pending').length;
+            const totalDiscounts = orders.reduce((sum, o) => sum + (parseFloat(o.discount_amount) || 0), 0);
+
+            document.getElementById('stat-revenue').innerText = totalRevenue.toLocaleString() + " TK";
+            document.getElementById('stat-pending').innerText = pendingCount;
+            document.getElementById('stat-total-orders').innerText = orders.length;
+            document.getElementById('stat-discounts').innerText = totalDiscounts.toLocaleString() + " TK";
+        }
+
+        // --- INVENTORY ---
         async function fetchInventory() {
             const cat = document.getElementById('inv-cat-filter').value;
             const { data } = await client.from('products').select('*').eq('category', cat).order('created_at', {ascending: false});
@@ -159,50 +198,30 @@
             const cat = document.getElementById('new-p-cat').value;
             const desc = document.getElementById('new-p-desc').value;
             const imgFile = document.getElementById('new-p-img').files[0];
-
             if(!name || !price) return alert("Fill Name and Price!");
             btn.disabled = true; btn.innerText = "SAVING...";
-
             let imageUrl = null;
             if (imgFile) {
                 const fName = `${Date.now()}_${imgFile.name.replace(/\s/g, '_')}`;
                 const { data: upData } = await client.storage.from('product-images').upload(fName, imgFile);
-                const { data: urlData } = client.storage.from('product-images').getPublicUrl(fName);
-                imageUrl = urlData.publicUrl;
+                imageUrl = client.storage.from('product-images').getPublicUrl(fName).data.publicUrl;
             }
-
             const productData = { name, price, category: cat, description: desc };
             if (imageUrl) productData.image_url = imageUrl;
-
-            let error;
-            if (editingProductId) {
-                // UPDATE Existing
-                const result = await client.from('products').update(productData).eq('id', editingProductId);
-                error = result.error;
-            } else {
-                // INSERT New
-                const result = await client.from('products').insert([productData]);
-                error = result.error;
-            }
-
-            if(error) alert(error.message); 
-            else { closeAddModal(); fetchInventory(); }
+            if (editingProductId) await client.from('products').update(productData).eq('id', editingProductId);
+            else await client.from('products').insert([productData]);
+            closeAddModal(); fetchInventory();
             btn.disabled = false; btn.innerText = "SAVE ITEM";
         }
 
-        // --- REST OF Logic (Same as before) ---
-        function openAddModal() { 
-            editingProductId = null;
-            document.getElementById('modal-type-title').innerText = "New Product";
-            document.getElementById('new-p-name').value = "";
-            document.getElementById('new-p-price').value = "";
-            document.getElementById('new-p-desc').value = "";
-            document.getElementById('product-modal').classList.replace('hidden', 'flex'); 
-        }
+        function openAddModal() { editingProductId = null; document.getElementById('modal-type-title').innerText = "New Product"; document.getElementById('new-p-name').value = ""; document.getElementById('new-p-price').value = ""; document.getElementById('new-p-desc').value = ""; document.getElementById('product-modal').classList.replace('hidden', 'flex'); }
         function closeAddModal() { document.getElementById('product-modal').classList.replace('flex', 'hidden'); }
         async function deleteProduct(id) { if(confirm('Delete?')) { await client.from('products').delete().eq('id', id); fetchInventory(); } }
+
+        // --- ORDERS (Updated to call Analytics) ---
         async function fetchOrders() {
             const { data } = await client.from('orders').select('*').order('created_at', {ascending: false});
+            updateAnalytics(data || []); // Update stats every fetch
             document.getElementById('orders-list').innerHTML = data.map(o => `
                 <div>
                     <div class="order-row grid grid-cols-4 p-6 items-center" onclick="this.classList.toggle('expanded')">
@@ -220,18 +239,21 @@
                                 <p><b class="text-[#39FF14] uppercase text-[9px]">Address:</b> ${o.address}, ${o.city}</p>
                                 <p><b class="text-pink-500 uppercase text-[9px]">Coupon:</b> ${o.coupon_code || 'None'} (-${o.discount_amount || 0} TK)</p>
                             </div>
-                            <div>${o.status === 'delivered' ? `<code class="block p-3 bg-green-500/10 text-green-500 rounded-lg text-center font-bold">${o.delivery_key}</code>` : `<div class="flex gap-2"><input id="key-${o.id}" placeholder="Key" class="flex-1 p-3 rounded-xl text-xs"><button onclick="deliverKey('${o.id}')" class="bg-[#39FF14] text-black px-6 rounded-xl font-black text-[10px] uppercase">Deliver</button></div>`}</div>
+                            <div>${o.status === 'delivered' ? `<code class="block p-3 bg-green-500/10 text-green-500 rounded-lg text-center font-bold text-xs select-all">${o.delivery_key}</code>` : `<div class="flex gap-2"><input id="key-${o.id}" placeholder="Key" class="flex-1 p-3 rounded-xl text-xs"><button onclick="deliverKey('${o.id}')" class="bg-[#39FF14] text-black px-6 rounded-xl font-black text-[10px] uppercase">Deliver</button></div>`}</div>
                         </div>
                     </div>
                 </div>`).join('');
         }
+
         async function deliverKey(id) {
             const val = document.getElementById(`key-${id}`).value;
+            if(!val) return alert("Enter key!");
             const { data: order } = await client.from('orders').select('*').eq('id', id).single();
             await client.from('orders').update({ delivery_key: val, status: 'delivered' }).eq('id', id);
             emailjs.send("recshopemailservice", "recshoporderdelivered", { customer_name: order.customer_name, product_name: order.product_name, delivery_key: val, to_email: order.email, order_id: order.id.split('-')[0] });
             fetchOrders();
         }
+
         async function fetchCoupons() {
             const { data } = await client.from('coupons').select('*').order('created_at', {ascending: false});
             document.getElementById('coupons-table').innerHTML = data.map(c => `<tr class="hover:bg-white/5"><td class="p-6 font-bold text-[#39FF14]">${c.code}</td><td class="p-6 font-black">${c.discount_percent}% OFF</td><td class="p-6 text-right"><button onclick="deleteCoupon('${c.id}')" class="text-red-500 text-[10px] font-black uppercase">Remove</button></td></tr>`).join('');
