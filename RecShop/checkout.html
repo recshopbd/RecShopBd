@@ -1,93 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>RECSHOP | Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | RECSHOP Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body {
-            background-color: #0b0d11;
-            color: white;
-            font-family: 'Inter', sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        body { 
+            background-color: #0b0d11; 
+            color: white; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0;
+            background-image: radial-gradient(circle at 50% -20%, #1c1f26 0%, #0b0d11 100%);
         }
 
-        .glass {
-            background: rgba(22, 26, 33, 0.8);
+        .checkout-card {
+            background: rgba(22, 26, 33, 0.6);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        input {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
+        .input-group input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-group input:focus {
+            border-color: #39FF14;
+            background: rgba(57, 255, 20, 0.02);
+            box-shadow: 0 0 0 4px rgba(57, 255, 20, 0.1);
             outline: none;
         }
 
-        input:focus {
-            border-color: #39FF14 !important;
+        .payment-box {
+            background: linear-gradient(145deg, rgba(57, 255, 20, 0.05) 0%, rgba(11, 13, 17, 1) 100%);
+            border: 1px solid rgba(57, 255, 20, 0.2);
         }
-        
-        .error-box {
-            border: 1px solid #ef4444;
-            background: rgba(239, 68, 68, 0.1);
+
+        .btn-confirm {
+            background: #39FF14;
+            color: #000;
+            font-weight: 800;
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(57, 255, 20, 0.4);
+        }
+
+        .btn-confirm:active { transform: translateY(0); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #1c1f26; border-radius: 10px; }
     </style>
 </head>
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8">
 
-<body class="p-4 md:p-10 flex justify-center items-center min-h-screen">
-    <div class="glass p-6 md:p-10 rounded-[2.5rem] w-full max-w-xl">
-        <h2 class="text-3xl font-black uppercase italic mb-8 tracking-tighter text-center md:text-left">Order <span
-                class="text-[#39FF14]">Summary</span></h2>
-
-        <!-- Login Warning (Hidden by default) -->
-        <div id="login-error" class="hidden error-box p-4 rounded-xl mb-6 text-center">
-            <p class="text-red-500 font-bold text-sm mb-2">You must be logged in to place an order!</p>
-            <a href="index.html" class="text-[#39FF14] text-xs font-black uppercase underline">Go to Home / Login</a>
+    <div class="w-full max-w-lg">
+        <!-- Logo/Brand -->
+        <div class="flex justify-center mb-8">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-[#39FF14] rounded flex items-center justify-center font-black text-black text-xs italic">REC</div>
+                <span class="font-black text-xl tracking-tighter uppercase">SHOP.</span>
+            </div>
         </div>
 
-        <div class="mb-10 p-6 bg-white/5 rounded-2xl border-l-4 border-[#39FF14] flex justify-between items-center">
-            <div>
-                <h3 id="p-name" class="text-xl font-black italic uppercase text-[#00D1FF]"></h3>
-                <p id="display-price" class="text-xl font-black mt-1 text-[#39FF14]"></p>
-            </div>
-            <div id="discount-badge"
-                class="hidden bg-pink-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Discount
-                Applied</div>
-        </div>
-
-        <div class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input id="customer_name" placeholder="Full Name" class="w-full p-4 rounded-xl">
-                <input id="phone" placeholder="Bkash Number" class="w-full p-4 rounded-xl">
-            </div>
-            <input id="email" placeholder="Email (Mandatory)" class="w-full p-4 rounded-xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input id="city" placeholder="City" class="w-full p-4 rounded-xl">
-                <input id="address" placeholder="Address" class="w-full p-4 rounded-xl">
+        <div class="checkout-card rounded-[2.5rem] p-8 md:p-10">
+            <!-- Order Header -->
+            <div class="mb-10 text-center">
+                <h1 class="text-xs font-bold text-slate-500 uppercase tracking-[0.4em] mb-2">Checkout Details</h1>
+                <div class="h-[1px] w-12 bg-[#39FF14] mx-auto"></div>
             </div>
 
-            <div class="mt-6 pt-6 border-t border-white/5">
-                <div class="flex gap-2 mb-4">
-                    <input id="coupon-input" placeholder="Have a Promo Code?"
-                        class="flex-1 p-4 rounded-xl !bg-pink-500/5 border-pink-500/20 uppercase font-bold text-sm">
-                    <button onclick="applyCoupon()"
-                        class="bg-pink-600 px-6 rounded-xl font-bold uppercase text-xs">Apply</button>
+            <!-- 1. Order Summary -->
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 id="p-name" class="text-2xl font-extrabold tracking-tight italic text-white uppercase leading-none">...</h2>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase mt-1 tracking-widest">Licensed Digital Product</p>
                 </div>
-                <div class="bg-[#39FF14]/5 p-4 rounded-xl border border-[#39FF14]/20">
-                    <p class="text-sm md:text-[17px] text-slate-400 mb-3">Send Money to<b> +8801805536811</b> then enter TrxID:</p>
-                    <input id="transaction_id" placeholder="TrxID"
-                        class="w-full p-4 rounded-xl !bg-black/40 border-[#39FF14]/30">
+                <div class="text-right">
+                    <p id="display-price" class="text-3xl font-black text-[#39FF14] tracking-tighter">... TK</p>
+                    <p id="discount-info" class="hidden text-[9px] font-black text-pink-500 uppercase tracking-tighter mt-1"></p>
                 </div>
             </div>
-        </div>
 
-        <button id="btn" onclick="placeOrder()"
-            class="w-full mt-10 py-5 bg-[#39FF14] text-black font-black uppercase rounded-2xl transition hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(57,255,20,0.2)]">Confirm
-            Order</button>
-            
-        <p id="success-msg" class="hidden text-[#39FF14] font-bold text-center mt-4">Order successful! Redirecting to your orders...</p>
+            <!-- 2. Customer Form -->
+            <div class="space-y-4 mb-8 input-group">
+                <input id="customer_name" type="text" placeholder="Full Name" class="w-full p-4 rounded-2xl text-sm font-medium">
+                <input id="phone" type="tel" placeholder="bKash / Nagad Number" class="w-full p-4 rounded-2xl text-sm font-medium">
+                <input id="email" type="email" placeholder="Email Address (Mandatory)" class="w-full p-4 rounded-2xl text-sm font-medium">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <input id="city" type="text" placeholder="City" class="w-full p-4 rounded-2xl text-sm font-medium">
+                    <input id="address" type="text" placeholder="Address / Area" class="w-full p-4 rounded-2xl text-sm font-medium">
+                </div>
+
+                <!-- Promo Input -->
+                <div class="flex gap-2 pt-2">
+                    <input id="coupon-input" type="text" placeholder="ENTER PROMO CODE" class="flex-1 p-4 rounded-2xl text-xs font-black tracking-widest !bg-amber-500/5">
+                    <button onclick="applyCoupon()" class="px-6 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition">Apply</button>
+                </div>
+            </div>
+
+            <!-- 3. Secure Payment -->
+            <div class="payment-box rounded-3xl p-6 mb-10 text-center">
+                <div class="flex items-center justify-center gap-2 mb-3">
+                    <svg class="w-3 h-3 text-[#39FF14]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#39FF14]">Secure Manual Payment</p>
+                </div>
+                <p class="text-xs text-slate-400 mb-5">Send Money to <span class="text-white font-bold tracking-wider">+8801805536811</span> then enter TrxID:</p>
+                <input id="transaction_id" type="text" placeholder="TRANSACTION ID (TRXID)" class="w-full p-4 rounded-2xl !bg-black/60 !border-[#39FF14]/30 text-center font-black text-sm uppercase tracking-[0.3em] focus:border-[#39FF14]">
+            </div>
+
+            <!-- 4. Error/Success Messages -->
+            <div id="login-error" class="hidden bg-red-500/10 border border-red-500/20 p-4 rounded-2xl mb-6 text-center">
+                <p class="text-red-500 text-xs font-bold mb-2">Authorization Required</p>
+                <a href="index.html" class="text-white text-[10px] font-black uppercase underline tracking-widest">Go to Login</a>
+            </div>
+
+            <button id="btn" onclick="placeOrder()" class="btn-confirm w-full py-5 rounded-2xl text-sm shadow-xl">
+                Place Secure Order
+            </button>
+
+            <p id="success-msg" class="hidden text-[#39FF14] text-[10px] font-black text-center mt-6 uppercase tracking-widest animate-pulse">
+                Processing Secure Order...
+            </p>
+        </div>
+        
+        <p class="text-center text-slate-600 text-[9px] font-bold uppercase tracking-[0.3em] mt-8">
+            © 2026 RECSHOP DIGITAL • SECURED BY SUPABASE
+        </p>
     </div>
 
     <script>
@@ -96,8 +148,8 @@
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const params = new URLSearchParams(window.location.search);
-        const name = params.get('name');
-        let originalPrice = parseFloat(params.get('price'));
+        const name = params.get('name') || "Digital Product";
+        let originalPrice = parseFloat(params.get('price')) || 0;
         let finalPrice = originalPrice;
         let discountAmt = 0;
         let appliedCoupon = null;
@@ -106,48 +158,51 @@
         document.getElementById('display-price').innerText = originalPrice + " TK";
 
         async function applyCoupon() {
-            const code = document.getElementById('coupon-input').value.toUpperCase();
+            const inputField = document.getElementById('coupon-input');
+            const code = inputField.value.toUpperCase().trim();
+            inputField.value = code;
+            
             if (!code) return;
 
-            const { data, error } = await client.from('coupons').select('*').eq('code', code).eq('is_active', true).single();
+            const { data } = await client.from('coupons').select('*').eq('code', code).eq('is_active', true).single();
 
             if (data) {
                 discountAmt = (originalPrice * (data.discount_percent / 100));
                 finalPrice = originalPrice - discountAmt;
                 appliedCoupon = code;
 
-                document.getElementById('display-price').innerHTML = `<span class="line-through text-slate-500 text-sm">${originalPrice}</span> ${finalPrice} TK`;
-                document.getElementById('discount-badge').classList.remove('hidden');
-                alert("Coupon Applied: " + data.discount_percent + "% OFF!");
+                document.getElementById('display-price').innerHTML = `<span class="line-through text-slate-500 text-sm mr-2">${originalPrice}</span> ${finalPrice} TK`;
+                const info = document.getElementById('discount-info');
+                info.innerText = `Discount added: -${discountAmt.toFixed(0)} TK`;
+                info.classList.remove('hidden');
             } else {
-                alert("Invalid or Expired Coupon");
+                alert("Invalid Promo Code");
             }
         }
 
         async function placeOrder() {
             const btn = document.getElementById('btn');
-            const loginError = document.getElementById('login-error');
-            
-            // 1. CHECK FOR LOGGED IN USER FIRST
             const { data: { user } } = await client.auth.getUser();
 
             if (!user) {
-                loginError.classList.remove('hidden');
+                document.getElementById('login-error').classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             }
 
-            const customer_name = document.getElementById('customer_name').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            const city = document.getElementById('city').value;
-            const address = document.getElementById('address').value;
-            const trx_id = document.getElementById('transaction_id').value;
+            const customer_name = document.getElementById('customer_name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const trx_id = document.getElementById('transaction_id').value.trim();
 
-            if (!customer_name || !email || !city || !trx_id) return alert("Fill all fields!");
+            if (!customer_name || !email || !city || !trx_id) {
+                return alert("Please fill all mandatory fields!");
+            }
 
             btn.disabled = true;
-            btn.innerText = "PROCESSING...";
+            btn.innerText = "PREPARING...";
 
             const { data, error } = await client.from('orders').insert([{
                 customer_name, phone, email, city, address,
@@ -157,25 +212,19 @@
                 coupon_code: appliedCoupon,
                 discount_amount: discountAmt,
                 status: 'pending', 
-                user_id: user.id // User ID is now mandatory
+                user_id: user.id
             }]).select();
 
             if (!error) {
-                // 2. SOLVE WHATSAPP REDIRECT: Redirect to Index Profile instead
                 document.getElementById('success-msg').classList.remove('hidden');
-                btn.innerText = "SUCCESS ✔";
-                
-                setTimeout(() => {
-                    // Redirects to index.html. Your index has logic to open Profile.
-                    window.location.href = "index.html"; 
-                }, 2000);
+                btn.innerText = "ORDER PLACED ✔";
+                setTimeout(() => { window.location.href = "index.html"; }, 1500);
             } else {
-                alert("Error: " + error.message);
+                alert(error.message);
                 btn.disabled = false;
-                btn.innerText = "Confirm Order";
+                btn.innerText = "Place Secure Order";
             }
         }
     </script>
 </body>
-
 </html>
