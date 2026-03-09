@@ -82,6 +82,24 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
+    <!-- PWA & Mobile Web App Meta Tags -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RECSHOP">
+<link rel="apple-touch-icon" href="https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/645767045_1045300431786946_9168206149520934376_n-removebg-preview_upscayl_4x_realesrgan-x4plus-anime.png">
+<meta name="theme-color" content="#0b0d11">
+
+<script>
+  // Register the Service Worker for PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('RECSHOP App Registered!'))
+        .catch(err => console.log('PWA Error', err));
+    });
+  }
+</script>
 </head>
 
 <body>
@@ -471,6 +489,7 @@
     </script>
 </body>
 </html>
+
 
 
 
