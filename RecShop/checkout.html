@@ -1,50 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>RECSHOP | Checkout</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { background-color: #0b0d11; color: white; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(22, 26, 33, 0.8); border: 1px solid rgba(255, 255, 255, 0.05); }
-        input { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; outline: none; }
-        input:focus { border-color: #39FF14 !important; }
+        body {
+            background-color: #0b0d11;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(22, 26, 33, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #39FF14 !important;
+        }
+        
+        .error-box {
+            border: 1px solid #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
     </style>
 </head>
-<body class="p-10 flex justify-center items-center min-h-screen">
-    <div class="glass p-10 rounded-[2.5rem] w-full max-w-xl">
-        <h2 class="text-3xl font-black uppercase italic mb-8 tracking-tighter">Order <span class="text-[#39FF14]">Summary</span></h2>
-        
+
+<body class="p-4 md:p-10 flex justify-center items-center min-h-screen">
+    <div class="glass p-6 md:p-10 rounded-[2.5rem] w-full max-w-xl">
+        <h2 class="text-3xl font-black uppercase italic mb-8 tracking-tighter text-center md:text-left">Order <span
+                class="text-[#39FF14]">Summary</span></h2>
+
+        <!-- Login Warning (Hidden by default) -->
+        <div id="login-error" class="hidden error-box p-4 rounded-xl mb-6 text-center">
+            <p class="text-red-500 font-bold text-sm mb-2">You must be logged in to place an order!</p>
+            <a href="index.html" class="text-[#39FF14] text-xs font-black uppercase underline">Go to Home / Login</a>
+        </div>
+
         <div class="mb-10 p-6 bg-white/5 rounded-2xl border-l-4 border-[#39FF14] flex justify-between items-center">
             <div>
                 <h3 id="p-name" class="text-xl font-black italic uppercase text-[#00D1FF]"></h3>
                 <p id="display-price" class="text-xl font-black mt-1 text-[#39FF14]"></p>
             </div>
-            <div id="discount-badge" class="hidden bg-pink-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Discount Applied</div>
+            <div id="discount-badge"
+                class="hidden bg-pink-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Discount
+                Applied</div>
         </div>
 
         <div class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input id="customer_name" placeholder="Full Name" class="w-full p-4 rounded-xl">
-                <input id="phone" placeholder="WhatsApp Number" class="w-full p-4 rounded-xl">
+                <input id="phone" placeholder="Bkash Number" class="w-full p-4 rounded-xl">
             </div>
             <input id="email" placeholder="Email (Mandatory)" class="w-full p-4 rounded-xl">
-            <div class="grid grid-cols-2 gap-4"><input id="city" placeholder="City" class="w-full p-4 rounded-xl"><input id="address" placeholder="Address" class="w-full p-4 rounded-xl"></div>
-            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input id="city" placeholder="City" class="w-full p-4 rounded-xl">
+                <input id="address" placeholder="Address" class="w-full p-4 rounded-xl">
+            </div>
+
             <div class="mt-6 pt-6 border-t border-white/5">
                 <div class="flex gap-2 mb-4">
-                    <input id="coupon-input" placeholder="Have a Promo Code?" class="flex-1 p-4 rounded-xl !bg-pink-500/5 border-pink-500/20 uppercase font-bold text-sm">
-                    <button onclick="applyCoupon()" class="bg-pink-600 px-6 rounded-xl font-bold uppercase text-xs">Apply</button>
+                    <input id="coupon-input" placeholder="Have a Promo Code?"
+                        class="flex-1 p-4 rounded-xl !bg-pink-500/5 border-pink-500/20 uppercase font-bold text-sm">
+                    <button onclick="applyCoupon()"
+                        class="bg-pink-600 px-6 rounded-xl font-bold uppercase text-xs">Apply</button>
                 </div>
                 <div class="bg-[#39FF14]/5 p-4 rounded-xl border border-[#39FF14]/20">
-                    <p class="text-[11px] text-slate-400 mb-3">Pay to <b>01805536811</b> then enter TrxID:</p>
-                    <input id="transaction_id" placeholder="TrxID" class="w-full p-4 rounded-xl !bg-black/40 border-[#39FF14]/30">
+                    <p class="text-sm md:text-[17px] text-slate-400 mb-3">Send Money to<b> +8801805536811</b> then enter TrxID:</p>
+                    <input id="transaction_id" placeholder="TrxID"
+                        class="w-full p-4 rounded-xl !bg-black/40 border-[#39FF14]/30">
                 </div>
             </div>
         </div>
 
-        <button id="btn" onclick="placeOrder()" class="w-full mt-10 py-5 bg-[#39FF14] text-black font-black uppercase rounded-2xl transition hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(57,255,20,0.2)]">Confirm Order</button>
+        <button id="btn" onclick="placeOrder()"
+            class="w-full mt-10 py-5 bg-[#39FF14] text-black font-black uppercase rounded-2xl transition hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(57,255,20,0.2)]">Confirm
+            Order</button>
+            
+        <p id="success-msg" class="hidden text-[#39FF14] font-bold text-center mt-4">Order successful! Redirecting to your orders...</p>
     </div>
 
     <script>
@@ -64,15 +107,15 @@
 
         async function applyCoupon() {
             const code = document.getElementById('coupon-input').value.toUpperCase();
-            if(!code) return;
+            if (!code) return;
 
             const { data, error } = await client.from('coupons').select('*').eq('code', code).eq('is_active', true).single();
 
-            if(data) {
+            if (data) {
                 discountAmt = (originalPrice * (data.discount_percent / 100));
                 finalPrice = originalPrice - discountAmt;
                 appliedCoupon = code;
-                
+
                 document.getElementById('display-price').innerHTML = `<span class="line-through text-slate-500 text-sm">${originalPrice}</span> ${finalPrice} TK`;
                 document.getElementById('discount-badge').classList.remove('hidden');
                 alert("Coupon Applied: " + data.discount_percent + "% OFF!");
@@ -82,6 +125,18 @@
         }
 
         async function placeOrder() {
+            const btn = document.getElementById('btn');
+            const loginError = document.getElementById('login-error');
+            
+            // 1. CHECK FOR LOGGED IN USER FIRST
+            const { data: { user } } = await client.auth.getUser();
+
+            if (!user) {
+                loginError.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
             const customer_name = document.getElementById('customer_name').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
@@ -89,23 +144,38 @@
             const address = document.getElementById('address').value;
             const trx_id = document.getElementById('transaction_id').value;
 
-            if(!customer_name || !email || !city || !trx_id) return alert("Fill all fields!");
-            
-            const { data: { user } } = await client.auth.getUser();
+            if (!customer_name || !email || !city || !trx_id) return alert("Fill all fields!");
+
+            btn.disabled = true;
+            btn.innerText = "PROCESSING...";
+
             const { data, error } = await client.from('orders').insert([{
                 customer_name, phone, email, city, address,
                 transaction_id: trx_id,
-                product_name: name, 
-                total_price: finalPrice, // SAVES THE DISCOUNTED PRICE
+                product_name: name,
+                total_price: finalPrice,
                 coupon_code: appliedCoupon,
                 discount_amount: discountAmt,
-                status: 'pending', user_id: user ? user.id : null
+                status: 'pending', 
+                user_id: user.id // User ID is now mandatory
             }]).select();
 
-            if(!error) {
-                window.location.href = `https://wa.me/8801805536811?text=Order ID: ${data[0].id.split('-')[0]}%0AFinal Price: ${finalPrice} TK`;
+            if (!error) {
+                // 2. SOLVE WHATSAPP REDIRECT: Redirect to Index Profile instead
+                document.getElementById('success-msg').classList.remove('hidden');
+                btn.innerText = "SUCCESS ✔";
+                
+                setTimeout(() => {
+                    // Redirects to index.html. Your index has logic to open Profile.
+                    window.location.href = "index.html"; 
+                }, 2000);
+            } else {
+                alert("Error: " + error.message);
+                btn.disabled = false;
+                btn.innerText = "Confirm Order";
             }
         }
     </script>
 </body>
+
 </html>
