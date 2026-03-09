@@ -1,0 +1,21 @@
+{
+  "name": "RECSHOP Gaming Marketplace",
+  "short_name": "RECSHOP",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0b0d11",
+  "theme_color": "#39FF14",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/645767045_1045300431786946_9168206149520934376_n-removebg-preview_upscayl_4x_realesrgan-x4plus-anime.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/645767045_1045300431786946_9168206149520934376_n-removebg-preview_upscayl_4x_realesrgan-x4plus-anime.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
