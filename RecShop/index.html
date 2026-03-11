@@ -8,6 +8,42 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+                /* GTA V Style Cursor - Applied to everything */
+* {
+    cursor: url('https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/icons8-middle-finger-24%20(1).png'), auto !important;
+}
+
+/* Ensure clickable items don't switch back to the hand cursor */
+a, button, [onclick], .box-card, input, select {
+    cursor: url('https://pnfjgklkkadedtssxvbl.supabase.co/storage/v1/object/public/background/icons8-middle-finger-24%20(1).png'), pointer !important;
+}
+
+/* GTA V Selection Ripple Effect */
+.gta-click-effect {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000000;
+    border: 2px solid white; /* GTA UI is mostly white/sharp */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: gta-ripple 0.4s ease-out forwards;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes gta-ripple {
+    0% {
+        width: 0px;
+        height: 0px;
+        opacity: 1;
+        border-width: 3px;
+    }
+    100% {
+        width: 20px;
+        height: 70px;
+        opacity: 0;
+        border-width: 1px;
+    }
+}
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
         body {
@@ -486,9 +522,25 @@
 
         document.getElementById('global-search').addEventListener('keydown', function(e) { if (e.key === 'Enter' && currentFiltered.length > 0) executeSearchSelect(0); });
         prepareSearch();
+        document.addEventListener('mousedown', function(e) {
+    const gtaRipple = document.createElement('div');
+    gtaRipple.className = 'gta-click-effect';
+    
+    // Position at mouse coords
+    gtaRipple.style.left = e.clientX + 'px';
+    gtaRipple.style.top = e.clientY + 'px';
+    
+    document.body.appendChild(gtaRipple);
+    
+    // Remove after animation
+    gtaRipple.addEventListener('animationend', () => {
+        gtaRipple.remove();
+    });
+});
     </script>
 </body>
 </html>
+
 
 
 
